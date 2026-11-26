@@ -101,6 +101,20 @@ create table if not exists public.admin_audit_log (
   created_at timestamptz not null default now()
 );
 
+-- 7. Admin Users (email-based access control for the admin portal)
+create table if not exists public.admin_users (
+  id uuid primary key default gen_random_uuid(),
+  email text unique not null,
+  name text,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+-- Seed the initial admin user
+insert into public.admin_users (email, name)
+values ('fedhatevin@gmail.com', 'Admin')
+on conflict (email) do nothing;
+
 -- Atomic Balance Adjustment RPC
 create or replace function public.adjust_user_balance(
   p_username text,

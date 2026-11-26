@@ -34,7 +34,8 @@ const apiRoutes = {
   '/api/deposits': require('./api/deposits'),
   '/api/withdraw': require('./api/withdraw'),
   '/api/trade': require('./api/trade'),
-  '/api/admin': require('./api/admin')
+  '/api/admin': require('./api/admin'),
+  '/api/admin-auth': require('./api/admin-auth')
 };
 
 function enhanceRes(res) {

@@ -26,6 +26,14 @@ body.light-mode{
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;transition:background .3s,color .3s}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg-secondary)}::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:3px}
 
+/* Login Screen */
+.login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.login-box{background:var(--bg-secondary);border:1px solid var(--border);border-radius:16px;padding:36px;width:100%;max-width:400px;text-align:center}
+.login-box .logo-icon{width:48px;height:48px;background:linear-gradient(135deg,#00c853,#00e676,#2979ff);border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;color:#000;font-family:'Dancing Script',cursive;box-shadow:0 0 20px rgba(0,200,83,.35);margin-bottom:16px}
+.login-box h1{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:6px}
+.login-box p{font-size:13px;color:var(--text-secondary);margin-bottom:24px}
+.login-error{background:var(--red-bg);color:var(--red);border:1px solid rgba(255,23,68,.3);border-radius:8px;padding:10px;font-size:12px;font-weight:600;margin-bottom:16px;display:none}
+
 /* Header */
 .header{height:56px;background:var(--bg-secondary);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;gap:12px;position:sticky;top:0;z-index:50}
 .logo-area{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0}
@@ -35,6 +43,7 @@ body.light-mode .logo-text{color:#0f172a}
 .logo-text span{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--green);letter-spacing:.5px;margin-left:2px}
 .admin-badge{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:3px 9px;border-radius:999px;background:var(--blue-bg);color:var(--blue);border:1px solid rgba(41,121,255,.3)}
 .header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.admin-email{font-size:11px;color:var(--text-secondary);font-weight:600;padding:5px 10px;border-radius:999px;background:var(--bg-card);border:1px solid var(--border)}
 .db-pill{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--gold-bg);color:var(--gold);border:1px solid rgba(255,193,7,.3)}
 .db-dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
 
@@ -103,9 +112,34 @@ tr:last-child td{border-bottom:none}
 .toast{background:var(--bg-secondary);border:1px solid var(--border-light);border-left:3px solid var(--green);border-radius:10px;padding:10px 14px;font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.35);max-width:340px}
 .toast.warn{border-left-color:var(--gold)}
 .toast.err{border-left-color:var(--red)}
+
+/* Loading */
+.loading-overlay{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;color:var(--text-secondary)}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-box">
+    <div class="logo-icon">E</div>
+    <h1>EvermarkFX Admin</h1>
+    <p>Enter your authorized admin email to access the portal</p>
+    <div class="login-error" id="loginError"></div>
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="field">
+        <label>Admin Email</label>
+        <input class="input" id="loginEmail" type="email" placeholder="you@example.com" required autocomplete="email" autofocus>
+      </div>
+      <button type="submit" class="btn btn-green" id="loginBtn" style="width:100%;justify-content:center;margin-top:8px">Sign In</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== ADMIN DASHBOARD (hidden until authenticated) ===== -->
+<div id="adminDashboard" style="display:none">
 <header class="header">
   <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
     <a href="/index.html" class="logo-area">
@@ -115,14 +149,24 @@ tr:last-child td{border-bottom:none}
     <span class="admin-badge">Admin Portal</span>
   </div>
   <div class="header-right">
-    <span class="db-pill" id="dbStatusPill" title="Database connection status"><span class="db-dot" id="dbStatusDot"></span> <span id="dbStatusText">Checking DB...</span></span>
+    <span class="admin-email" id="adminEmailDisplay"></span>
+    <span class="db-pill" id="dbStatusPill" title="Database connection status"><span class="db-dot" id="dbStatusDot"></span> <span id="dbStatusText">Connecting...</span></span>
     <a href="/index.html" class="btn btn-sm">Trading Site</a>
     <a href="/simuted/" class="btn btn-sm btn-blue">Open /simuted</a>
+    <button class="btn btn-sm btn-red" onclick="adminLogout()">Logout</button>
     <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">☀</button>
   </div>
 </header>
 
 <main class="container">
+  <!-- Loading overlay shown while fetching data -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner"></div>
+    <div>Loading data from database...</div>
+  </div>
+
+  <!-- Data content (hidden until loaded) -->
+  <div id="dataContent" style="display:none">
   <!-- KPI Summary -->
   <section class="kpi-grid">
     <div class="kpi-card">
@@ -220,7 +264,6 @@ tr:last-child td{border-bottom:none}
             <div class="card-title">Failed / Stuck Payment Gateway Requests</div>
             <div class="card-sub">One-click manual credit for deposits where the gateway timed out or failed</div>
           </div>
-          <button class="btn btn-sm" onclick="simulateFailedDeposit()">+ Simulate Failed Deposit</button>
         </div>
         <div class="table-wrap">
           <table>
@@ -316,7 +359,6 @@ tr:last-child td{border-bottom:none}
           <div class="card-title">Admin Audit Log</div>
           <div class="card-sub">Every manual balance adjustment and /simuted permission change</div>
         </div>
-        <button class="btn btn-sm btn-red" onclick="resetDemoAdminData()">Reset Local Demo Data</button>
       </div>
       <div class="table-wrap">
         <table>
@@ -334,60 +376,85 @@ tr:last-child td{border-bottom:none}
       </div>
     </div>
   </section>
+  </div><!-- end dataContent -->
 </main>
+</div><!-- end adminDashboard -->
 
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
-const STORAGE_KEYS = {
-  users: 'evermarkAdminUsers',
-  ledger: 'evermarkAdminLedger',
-  audit: 'evermarkAdminAudit',
-  simAccess: 'evermarkSimAccessUsers',
-  theme: 'evermarkTheme'
-};
+/* ═══════════════════════════════════════════════════════════
+   AUTH — gate access behind email verified against Supabase
+   ═══════════════════════════════════════════════════════════ */
+const ADMIN_SESSION_KEY = 'evermarkAdminSession';
 
-function defaultUsers() {
-  const current = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
-  const currentBal = parseFloat(localStorage.getItem('evermarkRealBalance') || '0');
-  const currentDemo = parseFloat(localStorage.getItem('evermarkDemoBalance') || '10000');
-  const list = [
-    { id: 'USR-1001', username: 'Flemzy11', email: 'flemzy11@evermarkfx.com', phone: '254712345678', realBalance: 4500, demoBalance: 12400, simAccess: true },
-    { id: 'USR-1002', username: 'AlphaWave', email: 'alpha@evermarkfx.com', phone: '254722889900', realBalance: 1250, demoBalance: 10000, simAccess: false },
-    { id: 'USR-1003', username: 'DeltaFX', email: 'delta@evermarkfx.com', phone: '254733445566', realBalance: 8900, demoBalance: 15000, simAccess: true },
-    { id: 'USR-1004', username: 'Nova77', email: 'nova77@evermarkfx.com', phone: '254700112233', realBalance: 320, demoBalance: 10000, simAccess: false }
-  ];
-  if (current && current.username && !list.some(u => u.username.toLowerCase() === current.username.toLowerCase())) {
-    list.unshift({
-      id: current.id || 'USR-1000',
-      username: current.username,
-      email: current.email || '',
-      phone: current.phone || '',
-      realBalance: isNaN(currentBal) ? 0 : currentBal,
-      demoBalance: isNaN(currentDemo) ? 10000 : currentDemo,
-      simAccess: false
+function getAdminSession() {
+  try { return JSON.parse(sessionStorage.getItem(ADMIN_SESSION_KEY)); } catch { return null; }
+}
+
+function setAdminSession(admin) {
+  sessionStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(admin));
+}
+
+function clearAdminSession() {
+  sessionStorage.removeItem(ADMIN_SESSION_KEY);
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const errEl = document.getElementById('loginError');
+  const btn = document.getElementById('loginBtn');
+  errEl.style.display = 'none';
+  btn.textContent = 'Verifying...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/admin-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
     });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      errEl.textContent = data.error || 'Access denied';
+      errEl.style.display = 'block';
+      btn.textContent = 'Sign In';
+      btn.disabled = false;
+      return;
+    }
+    setAdminSession(data.admin);
+    showDashboard(data.admin);
+  } catch (err) {
+    errEl.textContent = 'Could not connect to server. Make sure the server is running and the database is configured.';
+    errEl.style.display = 'block';
+    btn.textContent = 'Sign In';
+    btn.disabled = false;
   }
-  return list;
 }
 
-function defaultLedger() {
-  const now = Date.now();
-  return [
-    { id: 'TX-9012', ref: 'MPESA-QK8120', username: 'AlphaWave', type: 'deposit', amount: 2500, status: 'failed', note: 'M-Pesa STK callback timeout (Gateway 504)', createdAt: new Date(now - 18 * 60000).toISOString() },
-    { id: 'TX-9011', ref: 'MPESA-QK8114', username: 'Nova77', type: 'deposit', amount: 1000, status: 'failed', note: 'Gateway webhook signature mismatch', createdAt: new Date(now - 42 * 60000).toISOString() },
-    { id: 'TX-9010', ref: 'MPESA-QK8099', username: 'Flemzy11', type: 'deposit', amount: 5000, status: 'completed', note: 'Instant M-Pesa deposit', createdAt: new Date(now - 120 * 60000).toISOString() },
-    { id: 'TX-9009', ref: 'WDR-4410', username: 'DeltaFX', type: 'withdrawal', amount: 1800, status: 'completed', note: 'M-Pesa B2C payout', createdAt: new Date(now - 240 * 60000).toISOString() }
-  ];
+function adminLogout() {
+  clearAdminSession();
+  document.getElementById('adminDashboard').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginEmail').value = '';
 }
 
-let adminUsers = JSON.parse(localStorage.getItem(STORAGE_KEYS.users) || 'null') || defaultUsers();
-let adminLedger = JSON.parse(localStorage.getItem(STORAGE_KEYS.ledger) || 'null') || defaultLedger();
-let adminAudit = JSON.parse(localStorage.getItem(STORAGE_KEYS.audit) || '[]');
-let dbConnected = false;
+function showDashboard(admin) {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminDashboard').style.display = 'block';
+  document.getElementById('adminEmailDisplay').textContent = admin.email;
+  loadDashboardData();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DATA — everything comes from the database, no mock data
+   ═══════════════════════════════════════════════════════════ */
+let adminUsers = [];
+let adminLedger = [];
+let adminAudit = [];
 
 function setDbStatus(connected) {
-  dbConnected = connected;
   const pill = document.getElementById('dbStatusPill');
   const dot = document.getElementById('dbStatusDot');
   const txt = document.getElementById('dbStatusText');
@@ -399,32 +466,45 @@ function setDbStatus(connected) {
     dot.style.background = 'var(--green)';
     txt.textContent = 'Supabase Connected';
   } else {
-    txt.textContent = 'Local Fallback (Set .env)';
+    pill.style.background = 'var(--red-bg)';
+    pill.style.color = 'var(--red)';
+    pill.style.borderColor = 'rgba(255,23,68,.35)';
+    dot.style.background = 'var(--red)';
+    txt.textContent = 'DB Connection Failed';
   }
 }
 
-async function syncFromSupabase() {
+async function loadDashboardData() {
+  document.getElementById('loadingOverlay').style.display = 'flex';
+  document.getElementById('dataContent').style.display = 'none';
+
   try {
     const res = await fetch('/api/admin?_t=' + Date.now());
-    if (!res.ok) { setDbStatus(false); return; }
+    if (!res.ok) throw new Error('API returned ' + res.status);
     const data = await res.json();
-    if (data && data.connected) {
-      setDbStatus(true);
-      adminUsers = data.users || [];
-      adminLedger = data.ledger || [];
-      adminAudit = data.audit || [];
-      saveState();
-      renderAll();
-    } else {
-      setDbStatus(false);
+
+    if (!data || !data.connected) {
+      throw new Error('Database not connected');
     }
-  } catch (e) {
+
+    setDbStatus(true);
+    adminUsers = data.users || [];
+    adminLedger = data.ledger || [];
+    adminAudit = data.audit || [];
+    renderAll();
+
+    document.getElementById('loadingOverlay').style.display = 'none';
+    document.getElementById('dataContent').style.display = 'block';
+  } catch (err) {
     setDbStatus(false);
+    document.getElementById('loadingOverlay').innerHTML =
+      '<div style="color:var(--red);font-size:14px;font-weight:600">⚠ Could not load data from database</div>' +
+      '<div style="color:var(--text-secondary);font-size:12px;margin-top:8px">' + esc(err.message) + '</div>' +
+      '<button class="btn btn-sm" onclick="loadDashboardData()" style="margin-top:16px">Retry</button>';
   }
 }
 
 async function postAdminApi(payload) {
-  if (!dbConnected) return null;
   const res = await fetch('/api/admin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -433,25 +513,6 @@ async function postAdminApi(payload) {
   const data = await res.json();
   if (!res.ok || data.success === false) throw new Error(data.error || 'Admin API error');
   return data;
-}
-
-function saveState() {
-  localStorage.setItem(STORAGE_KEYS.users, JSON.stringify(adminUsers));
-  localStorage.setItem(STORAGE_KEYS.ledger, JSON.stringify(adminLedger));
-  localStorage.setItem(STORAGE_KEYS.audit, JSON.stringify(adminAudit));
-  // Sync simulation access map for /simuted gating when DB is connected
-  const simMap = {};
-  adminUsers.forEach(u => { simMap[u.username.toLowerCase()] = !!u.simAccess; });
-  localStorage.setItem(STORAGE_KEYS.simAccess, JSON.stringify(simMap));
-
-  // If the currently signed-in local user matches an admin-edited user, sync their local real balance
-  const cur = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
-  if (cur && cur.username) {
-    const match = adminUsers.find(u => u.username.toLowerCase() === cur.username.toLowerCase());
-    if (match) {
-      localStorage.setItem('evermarkRealBalance', match.realBalance.toString());
-    }
-  }
 }
 
 function fmtKES(n) {
@@ -471,17 +532,6 @@ function toast(msg, kind = 'ok') {
   setTimeout(() => el.remove(), 3500);
 }
 
-function logAudit(action, username, change, note) {
-  adminAudit.unshift({
-    ts: new Date().toISOString(),
-    action,
-    username,
-    change,
-    note
-  });
-  adminAudit = adminAudit.slice(0, 200);
-}
-
 function switchTab(name, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -491,9 +541,12 @@ function switchTab(name, btn) {
 
 function toggleTheme() {
   const isLight = document.body.classList.toggle('light-mode');
-  localStorage.setItem(STORAGE_KEYS.theme, isLight ? 'light' : 'dark');
+  localStorage.setItem('evermarkTheme', isLight ? 'light' : 'dark');
 }
 
+/* ═══════════════════════════════════════════════════════════
+   RENDER — all from real database data
+   ═══════════════════════════════════════════════════════════ */
 function renderAll() {
   renderKPIs();
   renderUserSelect();
@@ -558,14 +611,8 @@ async function creditFailedTx(txId) {
 
   try {
     await postAdminApi({ action: 'credit_failed', txId });
-    user.realBalance = +(Number(user.realBalance) + Number(tx.amount)).toFixed(2);
-    tx.status = 'manual_credit';
-    tx.note = `${tx.note} → Credited manually by admin`;
-    logAudit('Manual Gateway Recovery', user.username, `+${fmtKES(tx.amount)}`, `Ref: ${tx.ref}`);
-    saveState();
-    renderAll();
-    if (dbConnected) syncFromSupabase();
     toast(`Credited ${fmtKES(tx.amount)} to ${user.username}`);
+    await loadDashboardData(); // Refresh all data from DB
   } catch (err) {
     toast(err.message, 'err');
   }
@@ -586,49 +633,12 @@ async function submitManualAdjustment(e) {
 
   try {
     await postAdminApi({ action: 'manual_adjust', username: user.username, type, amount, reason, ref, note });
-    const delta = type === 'credit' ? amount : -amount;
-    user.realBalance = +(Number(user.realBalance) + delta).toFixed(2);
-
-    adminLedger.unshift({
-      id: 'TX-' + Date.now().toString().slice(-5),
-      ref,
-      username: user.username,
-      type: type === 'credit' ? 'manual_credit' : 'manual_debit',
-      amount,
-      status: type === 'credit' ? 'manual_credit' : 'manual_debit',
-      note: note ? `${reason}: ${note}` : reason,
-      createdAt: new Date().toISOString()
-    });
-
-    logAudit(type === 'credit' ? 'Manual Credit' : 'Manual Debit', user.username, `${type === 'credit' ? '+' : '-'}${fmtKES(amount)}`, `${reason} (${ref})`);
-    saveState();
-    renderAll();
-    if (dbConnected) syncFromSupabase();
     document.getElementById('manualFundForm').reset();
     toast(`${type === 'credit' ? 'Credited' : 'Debited'} ${fmtKES(amount)} for ${user.username}`);
+    await loadDashboardData(); // Refresh all data from DB
   } catch (err) {
     toast(err.message, 'err');
   }
-}
-
-function simulateFailedDeposit() {
-  const user = adminUsers[Math.floor(Math.random() * adminUsers.length)];
-  const amounts = [500, 1000, 1500, 2500, 5000];
-  const amt = amounts[Math.floor(Math.random() * amounts.length)];
-  const ref = 'MPESA-' + Math.random().toString(36).slice(2, 8).toUpperCase();
-  adminLedger.unshift({
-    id: 'TX-' + Date.now().toString().slice(-5),
-    ref,
-    username: user.username,
-    type: 'deposit',
-    amount: amt,
-    status: 'failed',
-    note: 'Payment gateway timeout (STK push unconfirmed)',
-    createdAt: new Date().toISOString()
-  });
-  saveState();
-  renderAll();
-  toast(`Simulated failed ${fmtKES(amt)} deposit for ${user.username}`, 'warn');
 }
 
 function renderUsers() {
@@ -637,6 +647,10 @@ function renderUsers() {
     !q || u.username.toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q) || (u.phone || '').toLowerCase().includes(q)
   );
   const tbody = document.getElementById('usersTableBody');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:20px">No traders found</td></tr>';
+    return;
+  }
   tbody.innerHTML = filtered.map(u => `
     <tr>
       <td><strong>${esc(u.username)}</strong><div style="font-size:10px;color:var(--text-muted)">${esc(u.id)}</div></td>
@@ -662,12 +676,8 @@ async function toggleSimAccess(uid) {
   const next = !user.simAccess;
   try {
     await postAdminApi({ action: 'toggle_sim_access', username: user.username, simAccess: next });
-    user.simAccess = next;
-    logAudit('/simuted Access', user.username, user.simAccess ? 'Granted' : 'Revoked', '80% win-rate simulation engine');
-    saveState();
-    renderAll();
-    if (dbConnected) syncFromSupabase();
-    toast(`${user.simAccess ? 'Granted' : 'Revoked'} /simuted access for ${user.username}`);
+    toast(`${next ? 'Granted' : 'Revoked'} /simuted access for ${user.username}`);
+    await loadDashboardData(); // Refresh all data from DB
   } catch (err) {
     toast(err.message, 'err');
   }
@@ -691,20 +701,8 @@ async function promptAddUser() {
   const email = prompt('Enter email (optional):') || '';
   try {
     await postAdminApi({ action: 'add_user', username: clean, phone: phone.trim(), email: email.trim() });
-    adminUsers.unshift({
-      id: 'USR-' + Math.floor(1000 + Math.random() * 9000),
-      username: clean,
-      email: email.trim(),
-      phone: phone.trim(),
-      realBalance: 0,
-      demoBalance: 10000,
-      simAccess: false
-    });
-    logAudit('Trader Added', clean, 'KES 0.00', 'Created in admin portal');
-    saveState();
-    renderAll();
-    if (dbConnected) syncFromSupabase();
     toast(`Added trader ${clean}`);
+    await loadDashboardData(); // Refresh all data from DB
   } catch (err) {
     toast(err.message, 'err');
   }
@@ -720,7 +718,12 @@ function renderLedger() {
     if (s === 'manual_debit') return '<span class="pill pill-gold">Manual Debit</span>';
     return `<span class="pill pill-muted">${esc(s)}</span>`;
   };
-  document.getElementById('ledgerBody').innerHTML = rows.map(t => `
+  const tbody = document.getElementById('ledgerBody');
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px">No transactions found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(t => `
     <tr>
       <td style="color:var(--text-secondary);white-space:nowrap">${new Date(t.createdAt).toLocaleString()}</td>
       <td class="mono">${esc(t.ref)}</td>
@@ -750,21 +753,18 @@ function renderAudit() {
   `).join('');
 }
 
-function resetDemoAdminData() {
-  adminUsers = defaultUsers();
-  adminLedger = defaultLedger();
-  adminAudit = [];
-  saveState();
-  renderAll();
-  toast('Local admin demo data reset');
-}
-
-if (localStorage.getItem(STORAGE_KEYS.theme) === 'light') {
+/* ═══════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════ */
+if (localStorage.getItem('evermarkTheme') === 'light') {
   document.body.classList.add('light-mode');
 }
-saveState();
-renderAll();
-syncFromSupabase();
+
+// Check for existing session
+const existingSession = getAdminSession();
+if (existingSession && existingSession.email) {
+  showDashboard(existingSession);
+}
 </script>
 </body>
 </html>
