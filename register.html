@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sign Up — evermarkFX</title>
+<link rel="canonical" href="https://evermarkfx.com/register.html">
+<meta property="og:site_name" content="evermarkFX">
+<meta property="og:title" content="Sign Up — evermarkFX">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-primary:#0a0e17;--bg-secondary:#0f1520;--bg-card:#131b2a;--border:#1e2d44;--border-light:#253550;
+  --text-primary:#e8edf5;--text-secondary:#7b8ca8;--text-muted:#4a5d7a;
+  --green:#00c853;--green-dark:#00a844;--green-bg:rgba(0,200,83,.1);--green-glow:rgba(0,200,83,.35);
+  --red:#ff1744;--red-bg:rgba(255,23,68,.1);
+  --gold:#ffc107;--gold-bg:rgba(255,193,7,.12);
+  --blue:#2979ff;--blue-bg:rgba(41,121,255,.12);
+}
+body.light-mode{
+  --bg-primary:#f0f2f5;--bg-secondary:#ffffff;--bg-card:#f8f9fb;--border:#d8dce6;--border-light:#c4cbd8;
+  --text-primary:#1a1d26;--text-secondary:#4a5568;--text-muted:#8896ab;
+  --green:#00b84a;--green-dark:#009a3e;--green-bg:rgba(0,184,74,.12);--green-glow:rgba(0,184,74,.3);
+  --red:#e0143c;--red-bg:rgba(224,20,60,.1);
+  --gold:#e6a800;--gold-bg:rgba(230,168,0,.12);
+  --blue:#1a6dff;--blue-bg:rgba(26,109,255,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;transition:background .3s,color .3s}
+
+/* Layout */
+.page{display:flex;min-height:100vh}
+.left-panel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;position:relative}
+.right-panel{flex:1;background:linear-gradient(135deg,rgba(0,200,83,.06),rgba(41,121,255,.06));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;border-left:1px solid var(--border)}
+@media(max-width:860px){
+  .page{flex-direction:column}
+  .right-panel{display:none}
+  .left-panel{min-height:100vh;justify-content:center}
+}
+
+/* Logo */
+.logo-area{display:flex;align-items:center;gap:8px;text-decoration:none;margin-bottom:36px}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#00c853,#00e676,#2979ff);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#000;font-family:'Space Grotesk',sans-serif;box-shadow:0 0 16px rgba(0,200,83,.4)}
+.logo-text{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:var(--text-primary);letter-spacing:-.5px}
+.logo-text span{color:var(--green)}
+
+/* Auth box */
+.auth-box{width:100%;max-width:380px}
+.auth-box h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin-bottom:6px}
+.auth-box .subtitle{font-size:14px;color:var(--text-secondary);margin-bottom:28px;line-height:1.5}
+.auth-box .subtitle a{color:var(--green);text-decoration:none;font-weight:600}
+.auth-box .subtitle a:hover{text-decoration:underline}
+
+/* Form */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.field .hint{font-size:11px;color:var(--text-muted);margin-top:4px}
+.input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-primary);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s}
+.input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,200,83,.1)}
+.input::placeholder{color:var(--text-muted)}
+.input.invalid{border-color:var(--red)}
+
+.btn{width:100%;padding:13px;border-radius:10px;border:none;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-green{background:var(--green);color:#000}
+.btn-green:hover{background:var(--green-dark)}
+.btn-green:disabled{opacity:.5;cursor:not-allowed}
+
+.error-msg{background:var(--red-bg);color:var(--red);border:1px solid rgba(255,23,68,.3);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:600;margin-bottom:16px;display:none;line-height:1.5}
+.success-msg{background:var(--green-bg);color:var(--green);border:1px solid rgba(0,200,83,.3);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:600;margin-bottom:16px;display:none;line-height:1.5}
+
+.divider{display:flex;align-items:center;gap:12px;margin:24px 0;color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.bottom-link{text-align:center;font-size:13px;color:var(--text-secondary);margin-top:20px}
+.bottom-link a{color:var(--green);text-decoration:none;font-weight:600}
+.bottom-link a:hover{text-decoration:underline}
+
+/* Bonus pill */
+.bonus-pill{display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid rgba(255,193,7,.3);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:20px}
+
+/* Right panel content */
+.promo{text-align:center;max-width:400px}
+.promo-icon{width:80px;height:80px;background:linear-gradient(135deg,#00c853,#00e676,#2979ff);border-radius:20px;display:inline-flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:24px;box-shadow:0 0 40px rgba(0,200,83,.3)}
+.promo h2{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin-bottom:12px}
+.promo p{font-size:14px;color:var(--text-secondary);line-height:1.6;margin-bottom:24px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat-card .stat-val{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;margin-bottom:4px}
+.stat-card .stat-val.green{color:var(--green)}
+.stat-card .stat-val.gold{color:var(--gold)}
+.stat-card .stat-val.blue{color:var(--blue)}
+.stat-card .stat-label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+
+/* Theme toggle */
+.theme-toggle{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
+.theme-toggle:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Spinner */
+.spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.2);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="left-panel">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">☀</button>
+
+    <a href="/index.html" class="logo-area">
+      <div class="logo-icon">E</div>
+      <div class="logo-text">evermark<span>FX</span></div>
+    </a>
+
+    <div class="auth-box">
+      <h1>Create your account</h1>
+      <p class="subtitle">Start trading on evermarkFX in seconds</p>
+
+      <div class="bonus-pill">🎁 Free KES 10,000 demo balance on sign up</div>
+
+      <div class="error-msg" id="errorMsg"></div>
+      <div class="success-msg" id="successMsg"></div>
+
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <div class="field">
+          <label>Username</label>
+          <input class="input" type="text" id="username" placeholder="Choose a unique username" required autofocus autocomplete="username" minlength="3" maxlength="30">
+          <div class="hint">3–30 characters. This is your trader identity.</div>
+        </div>
+        <div class="field">
+          <label>Phone Number</label>
+          <input class="input" type="tel" id="phone" placeholder="e.g. 254712345678" required autocomplete="tel">
+          <div class="hint">Your M-Pesa number for deposits and withdrawals</div>
+        </div>
+        <div class="field">
+          <label>Email <span style="color:var(--text-muted);text-transform:none;font-weight:400">(optional)</span></label>
+          <input class="input" type="email" id="email" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <button type="submit" class="btn btn-green" id="registerBtn">
+          <span id="registerText">Create Account</span>
+          <div class="spinner" id="registerSpinner"></div>
+        </button>
+      </form>
+
+      <div class="bottom-link">
+        Already have an account? <a href="login.html">Sign in</a>
+      </div>
+
+      <div class="divider">or</div>
+
+      <div class="bottom-link" style="margin-top:0">
+        <a href="/index.html">Try demo mode first →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="promo">
+      <div class="promo-icon">🚀</div>
+      <h2>Join 10,000+ Traders</h2>
+      <p>evermarkFX is Kenya's fastest-growing trading platform. Start earning today.</p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-val green">KES 32M+</div>
+          <div class="stat-label">Total Payouts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val gold">1,200+</div>
+          <div class="stat-label">Active Traders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val blue">3 sec</div>
+          <div class="stat-label">Trade Duration</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val green">Instant</div>
+          <div class="stat-label">M-Pesa Payouts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Theme
+if (localStorage.getItem('evermarkTheme') === 'light') document.body.classList.add('light-mode');
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  localStorage.setItem('evermarkTheme', isLight ? 'light' : 'dark');
+}
+
+// If already logged in, redirect to trading
+const existing = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
+if (existing && (existing.username || existing.email)) {
+  window.location.replace('/index.html');
+}
+
+function validateUsername(val) {
+  const clean = val.trim();
+  if (clean.length < 3) return 'Username must be at least 3 characters';
+  if (clean.length > 30) return 'Username must be at most 30 characters';
+  if (!/^[a-zA-Z0-9_]+$/.test(clean)) return 'Username can only contain letters, numbers, and underscores';
+  return null;
+}
+
+function validatePhone(val) {
+  const digits = val.replace(/\D/g, '');
+  if (digits.length < 9) return 'Please enter a valid phone number (e.g. 254712345678)';
+  return null;
+}
+
+async function handleRegister(e) {
+  e.preventDefault();
+  const errorEl = document.getElementById('errorMsg');
+  const successEl = document.getElementById('successMsg');
+  const btn = document.getElementById('registerBtn');
+  const textEl = document.getElementById('registerText');
+  const spinnerEl = document.getElementById('registerSpinner');
+  errorEl.style.display = 'none';
+  successEl.style.display = 'none';
+
+  const username = document.getElementById('username').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+
+  // Validate
+  const usernameErr = validateUsername(username);
+  if (usernameErr) {
+    errorEl.textContent = usernameErr;
+    errorEl.style.display = 'block';
+    document.getElementById('username').classList.add('invalid');
+    return;
+  }
+  document.getElementById('username').classList.remove('invalid');
+
+  const phoneErr = validatePhone(phone);
+  if (phoneErr) {
+    errorEl.textContent = phoneErr;
+    errorEl.style.display = 'block';
+    document.getElementById('phone').classList.add('invalid');
+    return;
+  }
+  document.getElementById('phone').classList.remove('invalid');
+
+  // Show loading
+  textEl.textContent = 'Creating account...';
+  spinnerEl.style.display = 'inline-block';
+  btn.disabled = true;
+
+  try {
+    const params = new URLSearchParams({ username });
+    if (phone) params.set('phone', phone);
+    if (email) params.set('email', email);
+
+    const res = await fetch('/api/auth?' + params.toString());
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || 'Registration failed. Please try again.');
+    }
+
+    // Save user session
+    const user = data.user;
+    localStorage.setItem('evermarkUser', JSON.stringify(user));
+    localStorage.setItem('evermarkRealBalance', (user.real_balance || user.balance || 0).toString());
+    localStorage.setItem('evermarkDemoBalance', (user.demo_balance || 10000).toString());
+    localStorage.removeItem('evermarkUserLoggedOut');
+
+    // Show success briefly then redirect
+    successEl.textContent = `Welcome to evermarkFX, ${user.username}! Redirecting to trading...`;
+    successEl.style.display = 'block';
+    textEl.textContent = 'Success!';
+    spinnerEl.style.display = 'none';
+
+    setTimeout(() => {
+      window.location.href = '/index.html';
+    }, 1200);
+  } catch (err) {
+    errorEl.textContent = err.message;
+    errorEl.style.display = 'block';
+    textEl.textContent = 'Create Account';
+    spinnerEl.style.display = 'none';
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

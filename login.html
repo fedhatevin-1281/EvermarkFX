@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Login — evermarkFX</title>
+<link rel="canonical" href="https://evermarkfx.com/login.html">
+<meta property="og:site_name" content="evermarkFX">
+<meta property="og:title" content="Login — evermarkFX">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-primary:#0a0e17;--bg-secondary:#0f1520;--bg-card:#131b2a;--border:#1e2d44;--border-light:#253550;
+  --text-primary:#e8edf5;--text-secondary:#7b8ca8;--text-muted:#4a5d7a;
+  --green:#00c853;--green-dark:#00a844;--green-bg:rgba(0,200,83,.1);--green-glow:rgba(0,200,83,.35);
+  --red:#ff1744;--red-bg:rgba(255,23,68,.1);
+  --gold:#ffc107;--gold-bg:rgba(255,193,7,.12);
+  --blue:#2979ff;--blue-bg:rgba(41,121,255,.12);
+}
+body.light-mode{
+  --bg-primary:#f0f2f5;--bg-secondary:#ffffff;--bg-card:#f8f9fb;--border:#d8dce6;--border-light:#c4cbd8;
+  --text-primary:#1a1d26;--text-secondary:#4a5568;--text-muted:#8896ab;
+  --green:#00b84a;--green-dark:#009a3e;--green-bg:rgba(0,184,74,.12);--green-glow:rgba(0,184,74,.3);
+  --red:#e0143c;--red-bg:rgba(224,20,60,.1);
+  --gold:#e6a800;--gold-bg:rgba(230,168,0,.12);
+  --blue:#1a6dff;--blue-bg:rgba(26,109,255,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;transition:background .3s,color .3s}
+
+/* Layout */
+.page{display:flex;min-height:100vh}
+.left-panel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;position:relative}
+.right-panel{flex:1;background:linear-gradient(135deg,rgba(0,200,83,.06),rgba(41,121,255,.06));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;border-left:1px solid var(--border)}
+@media(max-width:860px){
+  .page{flex-direction:column}
+  .right-panel{display:none}
+  .left-panel{min-height:100vh;justify-content:center}
+}
+
+/* Logo */
+.logo-area{display:flex;align-items:center;gap:8px;text-decoration:none;margin-bottom:36px}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#00c853,#00e676,#2979ff);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#000;font-family:'Space Grotesk',sans-serif;box-shadow:0 0 16px rgba(0,200,83,.4)}
+.logo-text{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:var(--text-primary);letter-spacing:-.5px}
+.logo-text span{color:var(--green)}
+
+/* Auth box */
+.auth-box{width:100%;max-width:380px}
+.auth-box h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin-bottom:6px}
+.auth-box .subtitle{font-size:14px;color:var(--text-secondary);margin-bottom:28px;line-height:1.5}
+.auth-box .subtitle a{color:var(--green);text-decoration:none;font-weight:600}
+.auth-box .subtitle a:hover{text-decoration:underline}
+
+/* Form */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-primary);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s}
+.input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,200,83,.1)}
+.input::placeholder{color:var(--text-muted)}
+
+.btn{width:100%;padding:13px;border-radius:10px;border:none;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-green{background:var(--green);color:#000}
+.btn-green:hover{background:var(--green-dark)}
+.btn-green:disabled{opacity:.5;cursor:not-allowed}
+
+.error-msg{background:var(--red-bg);color:var(--red);border:1px solid rgba(255,23,68,.3);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:600;margin-bottom:16px;display:none;line-height:1.5}
+
+.divider{display:flex;align-items:center;gap:12px;margin:24px 0;color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.bottom-link{text-align:center;font-size:13px;color:var(--text-secondary);margin-top:20px}
+.bottom-link a{color:var(--green);text-decoration:none;font-weight:600}
+.bottom-link a:hover{text-decoration:underline}
+
+/* Right panel content */
+.promo{text-align:center;max-width:400px}
+.promo-icon{width:80px;height:80px;background:linear-gradient(135deg,#00c853,#00e676,#2979ff);border-radius:20px;display:inline-flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:24px;box-shadow:0 0 40px rgba(0,200,83,.3)}
+.promo h2{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin-bottom:12px}
+.promo p{font-size:14px;color:var(--text-secondary);line-height:1.6;margin-bottom:24px}
+.promo-features{text-align:left;display:inline-block}
+.promo-features li{list-style:none;padding:6px 0;font-size:13px;color:var(--text-secondary);display:flex;align-items:center;gap:10px}
+.promo-features li::before{content:'✓';color:var(--green);font-weight:700;font-size:14px}
+
+/* Theme toggle */
+.theme-toggle{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
+.theme-toggle:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Spinner */
+.spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.2);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="left-panel">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">☀</button>
+
+    <a href="/index.html" class="logo-area">
+      <div class="logo-icon">E</div>
+      <div class="logo-text">evermark<span>FX</span></div>
+    </a>
+
+    <div class="auth-box">
+      <h1>Welcome back</h1>
+      <p class="subtitle">Log in to your trading account to continue</p>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="field">
+          <label>Username</label>
+          <input class="input" type="text" id="username" placeholder="Your username" required autofocus autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Phone Number</label>
+          <input class="input" type="tel" id="phone" placeholder="e.g. 254712345678" autocomplete="tel">
+        </div>
+        <button type="submit" class="btn btn-green" id="loginBtn">
+          <span id="loginText">Sign In</span>
+          <div class="spinner" id="loginSpinner"></div>
+        </button>
+      </form>
+
+      <div class="bottom-link">
+        Don't have an account? <a href="register.html">Sign up for free</a>
+      </div>
+
+      <div class="divider">or</div>
+
+      <div class="bottom-link" style="margin-top:0">
+        <a href="/index.html">Continue in demo mode →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="promo">
+      <div class="promo-icon">📈</div>
+      <h2>Trade Smart, Earn Big</h2>
+      <p>Join thousands of traders earning with evermarkFX. Fast deposits, instant withdrawals, and real-time trading.</p>
+      <ul class="promo-features">
+        <li>Instant M-Pesa deposits via STK Push</li>
+        <li>Real-time market trading engine</li>
+        <li>Fast withdrawals to M-Pesa</li>
+        <li>Free KES 10,000 demo balance</li>
+        <li>Up to 80% simulation win rate</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+// Theme
+if (localStorage.getItem('evermarkTheme') === 'light') document.body.classList.add('light-mode');
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  localStorage.setItem('evermarkTheme', isLight ? 'light' : 'dark');
+}
+
+// If already logged in, redirect to trading
+const existing = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
+if (existing && (existing.username || existing.email)) {
+  window.location.replace('/index.html');
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const errorEl = document.getElementById('errorMsg');
+  const btn = document.getElementById('loginBtn');
+  const textEl = document.getElementById('loginText');
+  const spinnerEl = document.getElementById('loginSpinner');
+  errorEl.style.display = 'none';
+
+  const username = document.getElementById('username').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+
+  if (!username) {
+    errorEl.textContent = 'Please enter your username';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  // Show loading
+  textEl.textContent = 'Signing in...';
+  spinnerEl.style.display = 'inline-block';
+  btn.disabled = true;
+
+  try {
+    const params = new URLSearchParams({ username });
+    if (phone) params.set('phone', phone);
+    const res = await fetch('/api/auth?' + params.toString());
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || 'Login failed. Please check your username.');
+    }
+
+    // Save user session
+    const user = data.user;
+    localStorage.setItem('evermarkUser', JSON.stringify(user));
+    localStorage.setItem('evermarkRealBalance', (user.real_balance || user.balance || 0).toString());
+    localStorage.setItem('evermarkDemoBalance', (user.demo_balance || 10000).toString());
+    localStorage.removeItem('evermarkUserLoggedOut');
+
+    // Redirect to trading
+    window.location.href = '/index.html';
+  } catch (err) {
+    errorEl.textContent = err.message;
+    errorEl.style.display = 'block';
+    textEl.textContent = 'Sign In';
+    spinnerEl.style.display = 'none';
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>
