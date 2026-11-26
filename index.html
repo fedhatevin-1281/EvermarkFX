@@ -715,7 +715,7 @@ body.demo-active .trade-btn-sell{background:linear-gradient(135deg,#7c3aed,#5b21
       <div class="usd-quick-grid" bis_skin_checked="1"><button class="d-chip kes-chip" onclick="selectChip(this,500)">500</button><button class="d-chip kes-chip" onclick="selectChip(this,1000)">1,000</button><button class="d-chip kes-chip" onclick="selectChip(this,2500)">2,500</button><button class="d-chip kes-chip" onclick="selectChip(this,5000)">5,000</button><button class="d-chip kes-chip" onclick="selectChip(this,10000)">10,000</button><button class="d-chip kes-chip kes-chip-custom" id="kesChipCustom" onclick="selectCustomChip('kesCustomWrap','depAmtKes')">Custom</button></div>
       <div id="kesCustomWrap" class="dep-custom-wrap" style="display:none;margin-bottom:10px" bis_skin_checked="1">
         <label class="modal-input-label">Enter KES Amount</label>
-        <input class="modal-input" type="number" id="depAmtKes" placeholder="Min: KES 500" min="500" step="50" oninput="onCustomInput(this)" style="margin-bottom:0">
+        <input class="modal-input" type="number" id="depAmtKes" placeholder="Min: KES 300" min="300" step="50" oninput="onCustomInput(this)" style="margin-bottom:0">
       </div>
     </div>
 
@@ -872,7 +872,7 @@ function formatCurrency(amount, includeSymbol = true){
 const CFG = {
   TICK: 120, MAX_PTS: 80, TRADE_DUR: 3, PAYOUT: 0.148, Y_MAX: 3.0,
   SPIKE_FREQ: 0.12, CRASH_FREQ: 0.02, BASE_LEVEL: 0.5, SPIKE_MAX: 2.8, CRASH_DEPTH: -2.8,
-  MIN_STAKE: 10, MAX_STAKE: 50000, MIN_DEPOSIT: 50, MIN_WITHDRAW: 100,
+  MIN_STAKE: 10, MAX_STAKE: 50000, MIN_DEPOSIT: 300, MIN_WITHDRAW: 100,
   MAX_MULT: 5.0,
   PRESTART_WAIT: 1,
   AUTOSELL_MULT: 2.5,
@@ -1777,7 +1777,7 @@ async function syncPlatformSettings() {
     const maxPts = parseInt(s.max_pts ?? s.graph?.max_pts ?? localCfg.max_pts ?? 80);
     const baseLevel = parseFloat(s.base_level ?? s.graph?.base_level ?? localCfg.base_level ?? 0.5);
 
-    const minDep = parseFloat(s.minDep ?? s.trade?.min_deposit ?? localCfg.minDep ?? 50);
+    const minDep = parseFloat(s.minDep ?? s.trade?.min_deposit ?? localCfg.minDep ?? 300);
     const minStake = parseFloat(s.minStake ?? s.trade?.min_stake ?? localCfg.minStake ?? 10);
     const maxStake = parseFloat(s.maxStake ?? s.trade?.max_stake ?? localCfg.maxStake ?? 50000);
     const maxMult = parseFloat(s.maxMult ?? s.trade?.max_multiplier ?? localCfg.maxMult ?? 5.0);
@@ -2342,7 +2342,7 @@ function openDeposit(){
   document.getElementById('depositModal').classList.add('show');
   document.getElementById('depositStatus').textContent='';
   const isUsd = depositCurrency === 'usd';
-  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 50);
+  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 300);
   const kesInput = document.getElementById('depAmtKes');
   const usdInput = document.getElementById('depAmtUsd');
   if (kesInput) {
@@ -2362,7 +2362,7 @@ function closeDeposit(){
 
 function _applyDeposit(){
   const isUsd = depositCurrency === 'usd';
-  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 50);
+  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 300);
   document.getElementById('amtKes').style.display = isUsd ? 'none' : 'block';
   document.getElementById('amtUsd').style.display = isUsd ? 'block' : 'none';
 
@@ -2414,7 +2414,7 @@ function onCustomInput(el){
 
 function _updateBtn(){
   const isUsd = depositCurrency === 'usd';
-  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 50);
+  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 300);
   if(selectedAmount<=0){ _disableDepBtn('Select an amount'); return; }
   
   if(selectedAmount < minDep) {
@@ -2477,7 +2477,7 @@ async function requestSTK(){
   }
 
   const isUsd = depositCurrency === 'usd';
-  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 50);
+  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 300);
   if (selectedAmount < minDep) {
     const minLabel = isUsd ? `$${minDep} USD` : `KES ${minDep}`;
     status.innerHTML = `<span style="color:var(--red)">Minimum deposit is ${minLabel}</span>`;

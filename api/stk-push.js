@@ -8,8 +8,8 @@ module.exports = async function handler(req, res) {
   const cleanPhone = String(phone || '').replace(/\D/g, '');
   const kesAmount = Math.round(Number(amount || 0));
 
-  if (!username || !/^254[71]\d{8}$/.test(cleanPhone) || kesAmount < 1) {
-    return res.status(400).json({ success: false, error: 'Valid username, 2547XXXXXXXX phone, and amount are required' });
+  if (!username || !/^254[71]\d{8}$/.test(cleanPhone) || kesAmount < 300) {
+    return res.status(400).json({ success: false, error: 'Valid username, 2547XXXXXXXX phone, and minimum deposit of KES 300 are required' });
   }
 
   const reference = 'MK-' + Date.now() + '-' + Math.floor(1000 + Math.random() * 9000);

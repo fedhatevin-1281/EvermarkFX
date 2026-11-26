@@ -31,7 +31,7 @@ create table if not exists public.platform_settings (
   force_loss_rate numeric(5,2) not null default 85.00,
   min_stake numeric(12,2) not null default 10.00,
   max_stake numeric(12,2) not null default 50000.00,
-  min_deposit numeric(12,2) not null default 50.00,
+  min_deposit numeric(12,2) not null default 300.00,
   min_withdrawal numeric(12,2) not null default 100.00,
   usd_rate numeric(10,2) not null default 129.00,
   updated_at timestamptz not null default now()

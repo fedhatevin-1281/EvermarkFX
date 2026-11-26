@@ -12,7 +12,7 @@ module.exports = async function handler(req, res) {
       force_loss_rate: 85,
       min_stake: 10,
       max_stake: 50000,
-      min_deposit: 50,
+      min_deposit: 300,
       min_withdrawal: 100,
       usd_rate: 129,
       user_outcomes: {}
@@ -53,7 +53,7 @@ module.exports = async function handler(req, res) {
       force_loss_rate: Number(cfg.force_loss_rate ?? 85),
       min_stake: Number(cfg.min_stake ?? 10),
       max_stake: Number(cfg.max_stake ?? 50000),
-      min_deposit: Number(cfg.min_deposit ?? 50),
+      min_deposit: Number(cfg.min_deposit ?? 300),
       min_withdrawal: Number(cfg.min_withdrawal ?? 100),
       usd_rate: Number(cfg.usd_rate ?? 129),
       user_outcomes
