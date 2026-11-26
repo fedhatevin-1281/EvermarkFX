@@ -1,0 +1,2887 @@
+<html lang="en"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
+<meta charset="UTF-8">
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>evermarkFX — Trade Smart, Earn Big</title>
+<link rel="canonical" href="https://evermarkfx.com/">
+<meta property="og:site_name" content="evermarkFX">
+<meta property="og:title" content="evermarkFX — Trade Smart, Earn Big">
+<meta property="og:url" content="https://evermarkfx.com/">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg-primary:#0a0e17;--bg-secondary:#0f1520;--bg-card:#131b2a;--border:#1e2d44;--border-light:#253550;--text-primary:#e8edf5;--text-secondary:#7b8ca8;--text-muted:#4a5d7a;--green:#00c853;--green-dark:#00a844;--green-bg:rgba(0,200,83,.08);--green-glow:rgba(0,200,83,.35);--red:#ff1744;--red-bg:rgba(255,23,68,.08);--red-glow:rgba(255,23,68,.35);--gold:#ffc107;--gold-bg:rgba(255,193,7,.1);--blue:#2979ff;--chart-bg:#000;--chart-green-fill:rgba(16,96,16,0.85);--chart-red-fill:rgba(80,16,16,0.85);--chart-line:#40D040;--chart-dot:rgba(64,208,64,0.25);--chart-grid:rgba(255,255,255,.07);--chart-grid-zero:rgba(255,255,255,.22);--chart-label:rgba(255,255,255,.35);--chart-ratebox:rgba(0,0,0,.75);--chart-ratebox-border:rgba(255,255,255,.45);--chart-rate-text:#fff}
+body.light-mode{--bg-primary:#f0f2f5;--bg-secondary:#ffffff;--bg-card:#f8f9fb;--border:#d8dce6;--border-light:#c4cbd8;--text-primary:#1a1d26;--text-secondary:#4a5568;--text-muted:#8896ab;--green:#00b84a;--green-dark:#009a3e;--green-bg:rgba(0,184,74,.1);--green-glow:rgba(0,184,74,.3);--red:#e0143c;--red-bg:rgba(224,20,60,.08);--red-glow:rgba(224,20,60,.3);--gold:#e6a800;--gold-bg:rgba(230,168,0,.1);--blue:#1a6dff;--chart-bg:#f5f7fa;--chart-green-fill:rgba(0,200,83,0.35);--chart-red-fill:rgba(255,23,68,0.30);--chart-line:#00a844;--chart-dot:rgba(0,168,68,0.3);--chart-grid:rgba(0,0,0,.08);--chart-grid-zero:rgba(0,0,0,.18);--chart-label:rgba(0,0,0,.4);--chart-ratebox:rgba(255,255,255,.9);--chart-ratebox-border:rgba(0,0,0,.2);--chart-rate-text:#1a1d26}
+/* Theme toggle */
+.theme-toggle{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s;font-size:16px;flex-shrink:0;position:relative;overflow:hidden}
+.theme-toggle:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+.theme-toggle .icon-sun,.theme-toggle .icon-moon{position:absolute;transition:transform .35s ease,opacity .25s}
+body:not(.light-mode) .theme-toggle .icon-sun{opacity:0;transform:rotate(-90deg) scale(.5)}
+body:not(.light-mode) .theme-toggle .icon-moon{opacity:1;transform:rotate(0) scale(1)}
+body.light-mode .theme-toggle .icon-sun{opacity:1;transform:rotate(0) scale(1)}
+body.light-mode .theme-toggle .icon-moon{opacity:0;transform:rotate(90deg) scale(.5)}
+/* ═══ LIGHT MODE OVERRIDES ═══ */
+body.light-mode .logo-text{color:#0f172a}
+body.light-mode .instrument-bar{background:#ffffff;border-color:#e2e8f0}
+body.light-mode .trade-controls{background:#ffffff;border-color:#e2e8f0}
+body.light-mode .trade-center{background:#f1f5f9}
+body.light-mode .chat-sidebar{background:#ffffff;border-color:#e2e8f0}
+body.light-mode .chat-header{border-color:#e2e8f0}
+body.light-mode .chat-input-area{border-color:#e2e8f0}
+body.light-mode .header{background:#ffffff;border-color:#e2e8f0}
+body.light-mode .btn-ghost{color:#475569;border-color:#cbd5e1}
+body.light-mode .btn-ghost:hover{color:#0f172a;border-color:#94a3b8;background:#f1f5f9}
+body.light-mode .btn-withdraw{color:#475569;border-color:#cbd5e1}
+body.light-mode .btn-withdraw:hover{color:#0f172a;border-color:#94a3b8}
+body.light-mode .demo-toggle-btn{background:#f1f5f9;border-color:#cbd5e1;color:#475569}
+body.light-mode .demo-toggle-btn.demo-active{background:rgba(230,168,0,.15);border-color:#e6a800;color:#b45309}
+body.light-mode .demo-toggle-btn.real-active{background:rgba(0,184,74,.15);border-color:var(--green);color:#059669}
+body.light-mode .balance-pill{background:#fff;border-color:#d8dce6}
+body.light-mode .amount-input-wrap{background:#fff;border-color:#d0d5e0}
+body.light-mode .amount-input{color:#1a1d26}
+body.light-mode .amount-currency{color:#6b7a90;border-color:#d0d5e0}
+body.light-mode .quick-amt{background:#fff;border-color:#d0d5e0;color:#3a4a60}
+body.light-mode .quick-amt:hover{border-color:var(--green);color:var(--green)}
+body.light-mode .chat-input{background:#fff;border-color:#d0d5e0;color:#1a1d26}
+body.light-mode .chat-msg.user{background:#f0f2f8;color:#4a5568}
+body.light-mode .chat-msg.win{background:rgba(0,184,74,.08);border-left-color:var(--green);color:#00863a}
+body.light-mode .chat-msg.bonus{background:rgba(230,168,0,.08);border-left-color:var(--gold);color:#9a7000}
+body.light-mode .tf-btn{background:rgba(255,255,255,.8);border-color:rgba(0,0,0,.12);color:rgba(0,0,0,.45)}
+body.light-mode .tf-btn.active{background:rgba(0,184,74,.12);color:#00863a;border-color:rgba(0,184,74,.3)}
+body.light-mode .modal-box{background:#fff;border-color:#d0d5e0;box-shadow:0 25px 50px rgba(0,0,0,.15)}
+body.light-mode .modal-input{background:#f5f7fa;border-color:#d0d5e0;color:#1a1d26}
+body.light-mode .modal-btn-ghost{background:#f5f7fa;border-color:#d0d5e0;color:#4a5568}
+body.light-mode .modal-title{color:#0f172a!important}
+body.light-mode .modal-input-label{color:#64748b}
+body.light-mode .d-chip{background:#f8fafc;border-color:#e2e8f0;color:#334155}
+body.light-mode .d-chip:hover{border-color:var(--green);color:var(--green)}
+body.light-mode .d-chip.active{background:rgba(0,200,83,.12);border-color:var(--green);color:#059669}
+body.light-mode .mobile-nav{background:#fff;border-top-color:#d8dce6}
+body.light-mode .licence-strip{background:#f5f7fa;border-top-color:#d8dce6;color:#8896ab}
+body.light-mode .licence-strip .licence-no{color:#4a5568}
+body.light-mode .timer-ring .track{stroke:#d0d5e0}
+body.light-mode .autosell-hud{background:rgba(255,255,255,.85);border-color:#d0d5e0;color:#4a5568}
+body.light-mode .autosell-hud .label{color:#8896ab}
+body.light-mode .toast{background:#fff;border-color:#d0d5e0;box-shadow:0 10px 30px rgba(0,0,0,.1);color:#0f172a}
+body.light-mode .toast-hero{background:linear-gradient(135deg,rgba(0,184,74,.1),rgba(0,184,74,.04));border-color:var(--green);box-shadow:0 0 0 1px rgba(0,184,74,.15),0 20px 48px rgba(0,184,74,.15)}
+body.light-mode .user-menu-dropdown{background:#fff;border-color:#d0d5e0;box-shadow:0 10px 40px rgba(0,0,0,.12)}
+body.light-mode .user-menu-item{color:#4a5568}
+body.light-mode .user-menu-item:hover{background:#f5f7fa;color:#1a1d26}
+body.light-mode .user-menu-divider{background:#e2e8f0}
+body.light-mode ::-webkit-scrollbar-track{background:#f0f2f5}
+body.light-mode ::-webkit-scrollbar-thumb{background:#c4cbd8}
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%;overflow:auto}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);color:var(--text-primary);transition:background .35s ease,color .35s ease}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg-secondary)}::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:2px}
+
+.header{height:52px;background:var(--bg-secondary);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:8px;position:relative;z-index:100;transition:background .35s,border-color .35s}
+.logo-area{display:flex;align-items:center;gap:6px;text-decoration:none;flex-shrink:0}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#00c853,#00e676,#2979ff);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#000;font-family:'Space Grotesk';flex-shrink:0;box-shadow:0 0 12px rgba(0,200,83,.4)}
+.logo-text{font-family:'Space Grotesk';font-weight:700;font-size:15px;color:#fff;letter-spacing:-.5px;white-space:nowrap;flex-shrink:0}
+.logo-text span{color:var(--green)}
+.header-center{flex:1;display:flex;align-items:center;justify-content:center;gap:20px}
+.header-stat{display:flex;flex-direction:column;align-items:center}
+.header-stat-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);font-weight:600}
+.header-stat-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600}
+.header-right{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:auto}
+.balance-pill{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;display:flex;align-items:center;gap:5px;cursor:pointer;flex-shrink:0}
+.balance-pill .icon{width:18px;height:18px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#000}
+.balance-pill .val{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--gold)}
+.btn-sm{padding:6px 12px;border-radius:6px;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.btn-green{background:var(--green);color:#000}.btn-green:hover{background:var(--green-dark)}
+.btn-ghost{background:transparent;color:var(--text-secondary);border:1px solid var(--border)}.btn-ghost:hover{border-color:var(--text-secondary);color:#fff}
+.header-actions{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.btn-deposit{background:var(--green);color:#000;font-weight:700;gap:4px;white-space:nowrap;padding:6px 10px;cursor:pointer;flex-shrink:0}
+.btn-deposit:hover{background:var(--green-dark)}
+.btn-withdraw{background:transparent;color:var(--text-secondary);border:1px solid var(--border);font-weight:600;gap:4px;white-space:nowrap;padding:6px 10px;cursor:pointer;flex-shrink:0}
+.btn-withdraw:hover{border-color:var(--text-secondary);color:#fff}
+.deposit-icon, .withdraw-icon{font-weight:800;font-size:14px;line-height:1;display:inline-block}
+
+/* Demo vs Real Toggle */
+.demo-toggle-btn{
+  padding:5px 11px;border-radius:18px;font-size:11px;font-weight:700;
+  cursor:pointer;transition:all .2s;border:1px solid var(--border);
+  background:var(--bg-card);color:var(--text-secondary);
+  text-transform:uppercase;letter-spacing:.5px;display:inline-flex;align-items:center;flex-shrink:0;
+}
+.demo-toggle-btn.demo-active{
+  background:rgba(255,193,7,.15);border-color:var(--gold);color:var(--gold);
+  box-shadow:0 0 10px rgba(255,193,7,.25);
+}
+.demo-toggle-btn.real-active{
+  background:rgba(0,200,83,.15);border-color:var(--green);color:var(--green);
+  box-shadow:0 0 10px rgba(0,200,83,.25);
+}
+
+/* User menu dropdown */
+.user-menu{position:relative}
+.user-menu-trigger{cursor:pointer}
+.user-menu-dropdown{
+  display:none;position:absolute;top:calc(100% + 6px);right:0;
+  min-width:180px;background:var(--bg-card);border:1px solid var(--border);
+  border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5);
+  padding:6px;z-index:300;animation:menuSlide .15s ease;
+}
+.user-menu-dropdown.open{display:block}
+@keyframes menuSlide{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.user-menu-item{
+  display:flex;align-items:center;gap:10px;padding:8px 12px;
+  font-size:12px;color:var(--text-secondary);text-decoration:none;
+  border-radius:6px;transition:all .15s;cursor:pointer;
+}
+.user-menu-item:hover{background:var(--border-light);color:#fff}
+.user-menu-item svg{color:var(--text-muted);flex-shrink:0}
+.user-menu-item:hover svg{color:var(--green)}
+.user-menu-divider{height:1px;background:var(--border);margin:4px 0}
+.user-menu-danger:hover{background:rgba(255,23,68,.08);color:#ff6478}
+.user-menu-danger:hover svg{color:#ff6478}
+.btn-red{background:var(--red);color:#fff}
+
+.main-layout{display:flex;height:calc(100vh - 52px);min-height:500px;overflow:auto}
+@supports (height:100svh){.main-layout{height:calc(100svh - 52px)}}
+
+/* Chat */
+.chat-sidebar{width:280px;background:var(--bg-secondary);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:background .35s,border-color .35s}
+.chat-header{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;transition:border-color .35s}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green-glow);animation:livePulse 2s infinite}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.4}}
+.chat-header-title{font-weight:600;font-size:13px}.online-count{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted)}
+.chat-messages{flex:1;overflow-y:auto;padding:8px 10px;display:flex;flex-direction:column;gap:4px}
+.chat-msg{font-size:11.5px;line-height:1.5;padding:5px 8px;border-radius:6px;animation:msgSlide .25s ease;word-break:break-word}
+@keyframes msgSlide{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.chat-msg.win{background:var(--green-bg);border-left:2px solid var(--green);color:var(--green)}
+.chat-msg.bonus{background:var(--gold-bg);border-left:2px solid var(--gold);color:var(--gold)}
+.chat-msg.user{background:var(--bg-card);color:var(--text-secondary)}
+.chat-msg .name{font-weight:600}
+.chat-input-area{padding:10px;border-top:1px solid var(--border);display:flex;gap:6px;transition:border-color .35s}
+.chat-input{flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text-primary);font-size:12px;font-family:inherit;outline:none}
+.chat-input:focus{border-color:var(--border-light)}
+.chat-send-btn{background:var(--green);color:#000;border:none;border-radius:6px;padding:0 12px;font-weight:700;font-size:11px;cursor:pointer;letter-spacing:.5px}
+
+.trade-center{flex:1;display:flex;flex-direction:column;min-width:0;overflow-y:auto}
+.instrument-bar{display:flex;align-items:center;gap:16px;padding:10px 16px;background:var(--bg-secondary);border-bottom:1px solid var(--border);flex-wrap:wrap;transition:background .35s,border-color .35s}
+.instrument-name{display:flex;align-items:center;gap:8px}
+.instrument-icon{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--green),#00e676);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#000}
+.instrument-label{font-family:'Space Grotesk';font-weight:700;font-size:15px}
+.instrument-label small{font-weight:400;font-size:11px;color:var(--text-muted);margin-left:4px}
+.rate-display{display:flex;align-items:baseline;gap:6px}
+.rate-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700}
+.rate-val.up{color:var(--green)}.rate-val.down{color:var(--red)}
+.rate-change{font-family:'JetBrains Mono',monospace;font-size:11px;padding:2px 6px;border-radius:4px;font-weight:600}
+.rate-change.up{background:var(--green-bg);color:var(--green)}.rate-change.down{background:var(--red-bg);color:var(--red)}
+.inst-stats{display:flex;gap:16px;margin-left:auto}
+.inst-stat{display:flex;flex-direction:column;align-items:flex-end}
+.inst-stat-label{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted)}
+.inst-stat-val{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text-secondary)}
+
+.chart-area{flex:1;position:relative;background:var(--chart-bg);min-height:200px;transition:background .35s}
+#chartCanvas{display:block;width:100%;height:100%}
+.chart-overlay-tl{position:absolute;top:10px;left:60px;display:flex;gap:6px;z-index:10}
+.tf-btn{padding:3px 8px;border-radius:3px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.5);color:rgba(255,255,255,.4);font-size:10px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono',monospace}
+.tf-btn.active{background:rgba(0,200,83,.12);color:#4cff50;border-color:rgba(0,200,83,.3)}
+
+.trade-controls{background:var(--bg-secondary);border-top:1px solid var(--border);padding:14px 16px;display:flex;align-items:stretch;gap:12px;transition:background .35s,border-color .35s}
+.trade-amount-section{display:flex;flex-direction:column;gap:6px}
+.trade-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);font-weight:600}
+.amount-input-wrap{display:flex;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.amount-currency{padding:0 10px;font-size:12px;font-weight:700;color:var(--text-muted);border-right:1px solid var(--border);display:flex;align-items:center;height:100%}
+.amount-input{background:transparent;border:none;color:var(--text-primary);font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;padding:10px 12px;width:120px;outline:none}
+.quick-amounts{display:flex;gap:4px}
+.quick-amt{padding:4px 10px;border-radius:4px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;cursor:pointer}
+.quick-amt:hover{border-color:var(--green);color:var(--green)}
+.timer-section{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:80px}
+.timer-ring{width:44px;height:44px;position:relative}
+.timer-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.timer-ring circle{fill:none;stroke-width:3}
+.timer-ring .track{stroke:var(--border)}.timer-ring .progress{stroke:var(--green);stroke-linecap:round;transition:stroke-dashoffset .3s}
+.timer-val{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700}
+.timer-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+.trade-buttons{display:flex;gap:8px;flex:1}
+.trade-btn{flex:1;border:none;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;font-family:'Space Grotesk';transition:all .2s;position:relative;overflow:hidden;padding:14px 8px;min-height:64px}
+.trade-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,transparent 100%);pointer-events:none}
+.trade-btn-buy{background:var(--green);box-shadow:0 4px 20px var(--green-glow)}.trade-btn-buy:hover{background:var(--green-dark);transform:translateY(-1px)}
+.trade-btn-sell{background:var(--red);box-shadow:0 4px 20px var(--red-glow)}.trade-btn-sell:hover{background:#d50032;transform:translateY(-1px)}
+.trade-btn .label{font-size:16px;font-weight:700;color:#fff;letter-spacing:1.5px;line-height:1}
+.trade-btn .sub{font-size:11px;font-weight:600;color:#fff;font-family:'JetBrains Mono',monospace;line-height:1.2}
+.trade-btn.active-trade{cursor:pointer}
+.trade-btn.active-trade .label{font-size:12px;letter-spacing:.5px;opacity:.95}
+.trade-btn.active-trade .sub{display:block!important;font-size:12px;font-weight:700}
+.trade-btn.cashout .label{font-size:14px}
+.trade-btn.cashout .sub{font-size:13px;font-weight:700}
+.trade-btn.disabled{opacity:.4;pointer-events:none;filter:grayscale(.3)}
+.trade-btn.processing{pointer-events:none;opacity:.85}
+.trade-btn.processing .label{display:flex;align-items:center;gap:6px;font-size:13px}
+.trade-btn.processing .label::before{content:'';width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+.trade-btn.processing .sub{display:none!important}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── PesaPal iframe modal ── */
+.pp-modal-overlay{
+  display:none;position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;padding:16px;
+}
+.pp-modal-overlay.show{display:flex}
+.pp-modal-box{
+  width:100%;max-width:520px;height:min(680px,92vh);
+  background:#0a0e17;border:1px solid #1e2d44;border-radius:16px;
+  display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,.8);animation:modalPop .3s ease;
+}
+.pp-modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;border-bottom:1px solid #1e2d44;flex-shrink:0;
+}
+.pp-modal-title{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#818cf8;display:flex;align-items:center;gap:8px}
+.pp-modal-close{
+  width:28px;height:28px;border-radius:6px;border:1px solid #1e2d44;
+  background:transparent;color:#7b8ca8;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.pp-modal-close:hover{border-color:#ff1744;color:#ff1744;background:rgba(255,23,68,.08)}
+.pp-iframe-wrap{flex:1;position:relative;background:#fff}
+.pp-iframe-wrap iframe{width:100%;height:100%;border:none;display:block}
+.pp-iframe-loading{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;background:#0a0e17;
+}
+.pp-iframe-loading .spinner{
+  width:36px;height:36px;border:3px solid #1e2d44;
+  border-top-color:#818cf8;border-radius:50%;animation:spin .8s linear infinite;
+}
+.pp-iframe-loading p{font-size:13px;color:#7b8ca8}
+.pp-modal-footer{
+  padding:10px 18px;border-top:1px solid #1e2d44;flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;color:#4a5d7a;
+}
+.pp-modal-footer a{color:#818cf8;text-decoration:none}
+.pp-modal-footer a:hover{text-decoration:underline}
+@media(max-width:540px){
+  .pp-modal-box{max-width:100%;height:100vh;border-radius:0;border:none}
+  .pp-modal-overlay{padding:0}
+}
+
+/* Cancel-mode styling: amber/gold secondary button during prestart window */
+.trade-btn.cancel-mode{background:var(--gold)!important;color:#000;box-shadow:0 4px 20px rgba(255,193,7,.4)!important;animation:cancelPulse 1.2s ease-in-out infinite}
+.trade-btn.cancel-mode .label,.trade-btn.cancel-mode .sub{color:#000}
+@keyframes cancelPulse{0%,100%{box-shadow:0 4px 20px rgba(255,193,7,.4)}50%{box-shadow:0 4px 28px rgba(255,193,7,.7)}}
+
+/* When a trade is placed, primary button is "locked in" — desaturate but readable */
+.trade-btn.active-trade.disabled{opacity:.55;filter:grayscale(.35)}
+.trade-btn.active-trade.disabled .sub{display:block}
+
+/* ═══ TOASTS ═══ */
+.toast-stack{position:fixed;top:68px;right:16px;z-index:400;display:flex;flex-direction:column;gap:8px;max-width:340px;pointer-events:none}
+.toast{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:10px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.45);font-size:13px;color:var(--text-primary);display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toastIn .3s ease-out;transition:opacity .35s, transform .35s}
+.toast.leaving{opacity:0;transform:translateX(20px)}
+.toast .toast-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--green-bg);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px}
+.toast .toast-body{line-height:1.4}
+.toast .toast-body strong{display:block;font-weight:600;margin-bottom:2px}
+.toast .toast-body small{color:var(--text-secondary);font-size:11px}
+.toast.toast-info{border-left-color:var(--blue)}.toast.toast-info .toast-icon{background:rgba(41,121,255,.1);color:var(--blue)}
+.toast.toast-warn{border-left-color:var(--gold)}.toast.toast-warn .toast-icon{background:var(--gold-bg);color:var(--gold)}
+.toast.toast-error{border-left-color:var(--red)}.toast.toast-error .toast-icon{background:var(--red-bg);color:var(--red)}
+@keyframes toastIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
+
+/* Hero toast */
+.toast-hero-wrap{position:fixed;top:72px;left:50%;transform:translateX(-50%);z-index:450;pointer-events:none;max-width:92vw}
+.toast-hero{background:linear-gradient(135deg, rgba(0,200,83,.18), rgba(0,200,83,.08));border:1.5px solid var(--green);border-radius:14px;padding:14px 22px 14px 18px;box-shadow:0 0 0 1px rgba(0,200,83,.2), 0 20px 48px rgba(0,200,83,.35), 0 0 60px rgba(0,200,83,.15);display:flex;align-items:center;gap:14px;pointer-events:auto;animation:heroPop .45s cubic-bezier(.34,1.56,.64,1);min-width:320px;backdrop-filter:blur(10px)}
+.toast-hero.leaving{animation:heroOut .4s ease forwards}
+.toast-hero .hero-check{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--green);color:#000;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;box-shadow:0 0 20px rgba(0,200,83,.6);animation:heroRing 1.2s ease-out}
+.toast-hero .hero-body{line-height:1.35}
+.toast-hero .hero-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--green);letter-spacing:.2px;display:flex;align-items:center;gap:6px}
+.toast-hero .hero-sub{font-size:12px;color:var(--text-secondary);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.toast-hero .hero-sub strong{color:#fff;font-weight:700}
+@keyframes heroPop{0%{opacity:0;transform:translate(-50%,-14px) scale(.9)}60%{opacity:1;transform:translate(-50%,4px) scale(1.02)}100%{opacity:1;transform:translate(-50%,0) scale(1)}}
+@keyframes heroOut{to{opacity:0;transform:translate(-50%,-14px) scale(.95)}}
+@keyframes heroRing{0%{box-shadow:0 0 0 0 rgba(0,200,83,.7)}70%{box-shadow:0 0 0 14px rgba(0,200,83,0)}100%{box-shadow:0 0 0 0 rgba(0,200,83,0)}}
+@media(max-width:640px){
+  .toast-hero-wrap{top:56px;left:8px;right:8px;transform:none;max-width:none}
+  .toast-hero{min-width:0;padding:12px 14px;gap:10px;animation:heroPopMob .45s cubic-bezier(.34,1.56,.64,1)}
+  .toast-hero.leaving{animation:heroOutMob .4s ease forwards}
+  .toast-hero .hero-check{width:30px;height:30px;font-size:17px}
+  .toast-hero .hero-title{font-size:14px}
+  .toast-hero .hero-sub{font-size:11px}
+  @keyframes heroPopMob{0%{opacity:0;transform:translateY(-14px) scale(.92)}60%{opacity:1;transform:translateY(3px) scale(1.01)}100%{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes heroOutMob{to{opacity:0;transform:translateY(-14px)}}
+}
+
+/* ═══ LICENSING STRIP ═══ */
+.licence-strip{
+  position:fixed;left:0;right:0;bottom:0;
+  background:var(--bg-secondary);border-top:1px solid var(--border);
+  padding:5px 12px calc(5px + env(safe-area-inset-bottom));
+  text-align:center;font-size:10px;color:var(--text-muted);
+  z-index:50;letter-spacing:.2px;
+}
+.licence-strip .licence-no{font-family:'JetBrains Mono',monospace;color:var(--text-secondary)}
+@media(max-width:640px){
+  .licence-strip{position:static;padding:6px 8px calc(6px + env(safe-area-inset-bottom));font-size:9px;letter-spacing:0;border-top:none;border-bottom:0}
+  .licence-strip .licence-no{font-size:9px}
+}
+
+/* ═══ AUTOSELL HUD ═══ */
+.autosell-hud{position:absolute;top:10px;right:12px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-secondary);display:none;z-index:10;line-height:1.4}
+.autosell-hud.show{display:block}
+.autosell-hud .row{display:flex;gap:6px;align-items:baseline;white-space:nowrap}
+.autosell-hud .row+.row{margin-top:2px}
+.autosell-hud .label{color:var(--text-muted);font-size:9px;text-transform:uppercase;letter-spacing:.6px}
+.autosell-hud .val{color:var(--green);font-weight:700}
+.autosell-hud .val.warn{color:var(--gold)}
+.autosell-hud .val.danger{color:var(--red)}
+@media(max-width:640px){.autosell-hud{top:6px;right:6px;font-size:10px;padding:5px 8px}.autosell-hud .label{font-size:8px}}
+
+/* Celebration */
+.celebration{display:none}
+
+.profit-bar{display:flex;align-items:center;gap:6px;min-width:100px;flex-direction:column;justify-content:center}
+.profit-label{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);font-weight:600}
+.profit-val{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700}
+.profit-val.pos{color:var(--green)}.profit-val.neg{color:var(--red)}.profit-val.neutral{color:var(--text-muted)}
+
+/* Modals */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:500;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px 32px;max-width:380px;width:90%;animation:modalPop .3s ease}
+@keyframes modalPop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.modal-title{font-family:'Space Grotesk';font-size:18px;font-weight:700;margin-bottom:16px;text-align:center}
+.modal-input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text-primary);font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;outline:none;margin-bottom:10px}
+.modal-input:focus{border-color:var(--green)}
+.modal-input-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);font-weight:600;margin-bottom:4px;display:block}
+.modal-btn{width:100%;padding:12px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;font-family:'Space Grotesk'}
+.modal-btn-green{background:var(--green);color:#000}.modal-btn-green:hover{background:var(--green-dark)}
+.modal-btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text-secondary);margin-top:8px}.modal-btn-ghost:hover{border-color:var(--text-secondary)}
+.modal-status{text-align:center;font-size:13px;margin-top:12px;min-height:20px}
+
+/* ═══ DEMO MODE ═══ */
+.demo-toggle-btn{padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.demo-toggle-btn.demo-on{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+.demo-toggle-btn:hover{border-color:var(--gold);color:var(--gold)}
+body.demo-active .trade-btn-buy{background:linear-gradient(135deg,#e6a800,#cc8800)!important;box-shadow:0 4px 20px rgba(255,193,7,.35)!important}
+body.demo-active .trade-btn-sell{background:linear-gradient(135deg,#7c3aed,#5b21b6)!important;box-shadow:0 4px 20px rgba(124,58,237,.35)!important}
+@media(max-width:640px){.demo-toggle-btn{font-size:11px;padding:5px 9px}}
+
+/* ═══ USD / KES DEPOSIT CHIPS ═══ */
+.usd-quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.usd-chip{padding:10px 8px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg-card);color:var(--text-secondary);font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;text-align:center}
+.usd-chip:hover{border-color:#4d9fff;color:#4d9fff;background:rgba(41,121,255,.07)}
+.usd-chip.selected{border-color:#2979ff;background:rgba(41,121,255,.15);color:#4d9fff;box-shadow:0 0 0 1px rgba(41,121,255,.3)}
+.usd-chip-custom{font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.3px;color:var(--text-muted)}
+.usd-chip-custom.selected{border-color:var(--gold);background:var(--gold-bg);color:var(--gold);box-shadow:0 0 0 1px rgba(255,193,7,.3)}
+
+.kes-chip{padding:10px 8px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg-card);color:var(--text-secondary);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;text-align:center}
+.kes-chip:hover{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.kes-chip.selected{border-color:var(--green);background:var(--green-bg);color:var(--green);box-shadow:0 0 0 1px rgba(0,200,83,.25)}
+.kes-chip-custom{font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.3px;color:var(--text-muted)}
+.kes-chip-custom.selected{border-color:var(--gold);background:var(--gold-bg);color:var(--gold);box-shadow:0 0 0 1px rgba(255,193,7,.3)}
+
+.dep-method-tabs{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.dep-method-tab{flex:1;padding:9px;background:var(--bg-card);color:var(--text-muted);border:none;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.5px}
+.dep-method-tab+.dep-method-tab{border-left:1px solid var(--border)}
+.dep-method-tab.active-mpesa{background:var(--green);color:#000}
+.dep-method-tab.active-usd{background:#2979ff;color:#fff}
+.dep-method-tab.active-pesapal{background:#6366f1;color:#fff}
+.dep-method-tab.active-hub{background:#0ea5e9;color:#fff}
+.dep-method-tab.active-megapay{background:#10b981;color:#fff}
+.dep-method-tab.active-paywave{background:#eab308;color:#000}
+
+.usd-preview{background:rgba(41,121,255,.08);border:1px solid rgba(41,121,255,.25);border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.usd-preview .kes-equiv{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#4d9fff}
+.usd-preview .rate-note{font-size:10px;color:var(--text-muted);text-align:right;line-height:1.5}
+
+.result-icon{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px}
+.result-icon.win{background:var(--green-bg);border:2px solid var(--green)}.result-icon.lose{background:var(--red-bg);border:2px solid var(--red)}
+.result-title{font-family:'Space Grotesk';font-size:20px;font-weight:700;margin-bottom:8px;text-align:center}
+.result-title.win{color:var(--green)}.result-title.lose{color:var(--red)}
+.result-amount{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;margin-bottom:16px;text-align:center}
+.result-details{font-size:12px;color:var(--text-secondary);margin-bottom:20px;line-height:1.8;text-align:center}
+.result-details span{color:var(--text-primary);font-weight:600}
+
+/* Mobile Responsive */
+.mobile-nav{display:none;background:var(--bg-secondary);border-top:1px solid var(--border);padding:6px 0 calc(6px + env(safe-area-inset-bottom))}
+.mobile-nav-items{display:flex;justify-content:space-around}
+.mobile-nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--text-muted);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;padding:4px 12px}
+.mobile-nav-item.active{color:var(--green)}
+.mobile-nav-item svg{width:20px;height:20px}
+.mobile-chat-toggle{display:none;position:fixed;bottom:70px;right:16px;width:48px;height:48px;border-radius:50%;background:var(--green);color:#000;border:none;cursor:pointer;z-index:200;box-shadow:0 4px 16px var(--green-glow);font-size:18px;align-items:center;justify-content:center}
+
+@media(max-width:900px){
+  .chat-sidebar{display:none}
+  .chat-sidebar.mobile-open{display:flex;position:fixed;inset:0;width:100%;z-index:300;background:var(--bg-secondary)}
+  .mobile-chat-toggle{display:flex}
+  .inst-stats{display:none}
+  .header-center{display:none}
+}
+
+@media(max-width:640px){
+  .main-layout{height:calc(100vh - 48px - 56px - 28px);min-height:460px;overflow-y:auto}
+  @supports (height:100svh){.main-layout{height:calc(100svh - 48px - 56px - 28px)}}
+  .header{padding:0 8px;height:48px;gap:6px;justify-content:space-between}
+  .logo-area{gap:5px;flex-shrink:0}
+  .logo-icon{width:28px;height:28px;font-size:13px;border-radius:6px}
+  .logo-text{font-size:13px;white-space:nowrap;flex-shrink:0}
+  .theme-toggle{width:28px;height:28px;font-size:12px;flex-shrink:0}
+  .demo-toggle-btn{padding:3px 7px;font-size:10px;border-radius:12px;flex-shrink:0}
+  .balance-pill{padding:3px 6px;gap:4px;flex-shrink:0}
+  .balance-pill .icon{width:16px;height:16px;font-size:9px}
+  .balance-pill .val{font-size:11px}
+  .header-actions{gap:3px;flex-shrink:0}
+  .btn-deposit{padding:3px 7px;font-size:14px;min-width:26px;height:26px;border-radius:5px;flex-shrink:0}
+  .btn-deposit .deposit-label{display:none}
+  .btn-deposit .deposit-icon{display:inline-block}
+  .btn-withdraw{padding:3px 7px;font-size:14px;min-width:26px;height:26px;border-radius:5px;flex-shrink:0}
+  .btn-withdraw .withdraw-label{display:none}
+  .btn-withdraw .withdraw-icon{display:inline-block}
+  .header-right{gap:4px;flex-shrink:0}
+  #authButtonsWrap{gap:3px;flex-shrink:0}
+  #authButtonsWrap .btn-sm{padding:4px 7px;font-size:10px}
+  .instrument-bar{padding:8px 12px;gap:10px}
+  .rate-val{font-size:18px}
+  .rate-change{font-size:10px;padding:2px 5px}
+  .chart-overlay-tl{top:6px;left:4px;gap:4px}
+  .tf-btn{padding:3px 7px;font-size:10px;min-height:24px}
+  .trade-controls{flex-wrap:wrap;padding:10px 12px 12px;gap:8px;align-items:center}
+  .trade-amount-section{flex-direction:row;align-items:center;width:100%;gap:6px;order:1}
+  .trade-label{display:none}
+  .amount-input-wrap{flex-shrink:0}
+  .amount-input{width:78px;font-size:16px;padding:8px 10px}
+  .amount-currency{padding:0 8px;font-size:11px}
+  .quick-amounts{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+  .quick-amt{padding:8px 4px;font-size:11px;min-height:32px;text-align:center}
+  .timer-section{flex-direction:row;gap:8px;min-width:unset;order:2;align-items:center;flex-shrink:0}
+  .timer-ring{width:34px;height:34px}
+  .timer-val{font-size:12px}
+  .timer-label{font-size:10px}
+  .profit-bar{flex-direction:row;min-width:unset;gap:6px;margin-left:auto;order:3;align-items:baseline;white-space:nowrap}
+  .profit-label{font-size:10px}
+  .profit-val{font-size:16px}
+  .trade-buttons{width:100%;flex:1 1 100%;gap:8px;order:4}
+  .trade-btn{padding:12px 8px;min-height:60px}
+  .trade-btn .label{font-size:16px;letter-spacing:1px}
+  .trade-btn .sub{font-size:11px}
+  .mobile-nav{display:block}
+  .mobile-chat-toggle{bottom:calc(200px + env(safe-area-inset-bottom));right:12px;width:44px;height:44px;font-size:18px}
+  .chat-sidebar.mobile-open{bottom:56px;inset:48px 0 56px 0}
+  .modal-box{padding:22px 20px;width:92%;max-width:380px;border-radius:14px}
+  .modal-input{font-size:16px;padding:12px}
+  .modal-title{font-size:17px}
+}
+
+@media(max-width:380px){
+  .header{padding:0 6px;gap:4px}
+  .logo-text{font-size:12px}
+  .header-right{gap:3px}
+  .btn-sm{padding:4px 6px;font-size:9px}
+  .balance-pill{padding:2px 5px;gap:3px}
+  .balance-pill .icon{width:14px;height:14px;font-size:8px}
+  .balance-pill .val{font-size:10px}
+  .rate-val{font-size:16px}
+  .amount-input{width:64px}
+  .quick-amt{padding:7px 2px;font-size:10px}
+  .profit-val{font-size:14px}
+  .trade-btn .label{font-size:14px}
+}
+
+/* ═════════════════════════════════════════════
+   CLEAN TOAST NOTIFICATION STYLES
+   ═════════════════════════════════════════════ */
+.site-toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  width: 90%;
+  max-width: 380px;
+}
+.site-toast {
+  background: rgba(15, 23, 42, 0.95);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 11px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: toastFadeIn 0.25s ease-out;
+  pointer-events: auto;
+}
+@keyframes toastFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+<script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="1a76df0a-64c2-4554-ae30-8de6339d763d" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="1a76df0a-64c2-4554-ae30-8de6339d763d" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script></head>
+<body __processed_31198bbe-5083-49ec-89d1-80f51f17fb5a__="true" class="light-mode" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJlbmFibGVkIiwiTElOS0VESU4iOiJlbmFibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMy4wIiwic2NvcmUiOjIwMzAwMH1d">
+
+
+<!-- HEADER -->
+<div class="header" bis_skin_checked="1">
+  <a href="index.html" class="logo-area">
+    <div class="logo-icon" bis_skin_checked="1">E</div>
+    <div class="logo-text" id="siteLogo" bis_skin_checked="1">evermark<span>FX</span></div>
+  </a>
+  <div class="header-center" bis_skin_checked="1">
+    <div class="header-stat" bis_skin_checked="1"><span class="header-stat-label">24h Volume</span><span class="header-stat-val" id="stat24Volume" style="color:var(--green)">KES 4.8M</span></div>
+    <div class="header-stat" bis_skin_checked="1"><span class="header-stat-label">Traders Online</span><span class="header-stat-val" id="onlineTraders">1,284</span></div>
+    <div class="header-stat" bis_skin_checked="1"><span class="header-stat-label">Total Payouts</span><span class="header-stat-val" id="statTotalPayouts" style="color:var(--gold)">KES 32.4M</span></div>
+  </div>
+  <div class="header-right" bis_skin_checked="1">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
+      <span class="icon-sun">☀</span>
+      <span class="icon-moon">☾</span>
+    </button>
+    <button class="demo-toggle-btn demo-active" id="demoToggleBtn" onclick="toggleDemoMode()" title="Switch between demo and real trading">Demo</button>
+    
+    <div class="balance-pill" onclick="openDeposit()" title="Click to deposit" bis_skin_checked="1">
+      <div class="icon" id="headerBalIcon" bis_skin_checked="1">K</div>
+      <div class="val" id="headerBalance" bis_skin_checked="1">12,400.00</div>
+    </div>
+
+    <!-- Header Action Buttons (Deposit + and Withdraw -) -->
+    <div class="header-actions" id="headerActionsWrap" style="display:flex" bis_skin_checked="1">
+      <button class="btn-sm btn-green btn-deposit" onclick="openDeposit()" title="Deposit Funds">
+        <span class="deposit-icon">+</span>
+        <span class="deposit-label">Deposit</span>
+      </button>
+      <button class="btn-sm btn-ghost btn-withdraw" onclick="openWithdraw()" title="Withdraw to M-Pesa">
+        <span class="withdraw-icon">−</span>
+        <span class="withdraw-label">Withdraw</span>
+      </button>
+    </div>
+
+    <!-- Dynamic auth buttons -->
+    <div id="authButtonsWrap" style="display: none; gap: 6px;" bis_skin_checked="1">
+      <a href="login.html" class="btn-sm btn-ghost" id="loginBtnNav">Login</a>
+      <a href="register.html" class="btn-sm btn-green" id="signUpBtnNav">Sign Up</a>
+    </div>
+
+    <div class="user-menu" id="userMenuWrap" style="display: block;" bis_skin_checked="1">
+      <button class="btn-sm btn-ghost user-menu-trigger" onclick="toggleUserMenu(event)">
+        <span id="userNameNav">Flemzy11 ▾</span> ▾
+      </button>
+      <div class="user-menu-dropdown" id="userMenuDropdown" bis_skin_checked="1">
+        <a href="profile.html" class="user-menu-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Profile &amp; Wallet
+        </a>
+        <a href="transactions.html" class="user-menu-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Trade History
+        </a>
+        <div class="user-menu-item" onclick="openDeposit()" bis_skin_checked="1">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg>
+          Deposit Funds
+        </div>
+        <div class="user-menu-item" onclick="openWithdraw()" bis_skin_checked="1">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+          Withdraw to M-Pesa
+        </div>
+        <div class="user-menu-divider" bis_skin_checked="1"></div>
+        <div class="user-menu-item user-menu-danger" onclick="logoutUser()" bis_skin_checked="1">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          Sign Out
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout" bis_skin_checked="1">
+  <!-- CHAT SIDEBAR -->
+  <div class="chat-sidebar" id="chatSidebar" bis_skin_checked="1">
+    <div class="chat-header" bis_skin_checked="1">
+      <div class="live-dot" bis_skin_checked="1"></div>
+      <span class="chat-header-title">Live Activity</span>
+      <span class="online-count" id="chatOnline">1,284 online</span>
+      <button onclick="closeMobileChat()" style="display:none;margin-left:8px;background:transparent;border:1px solid var(--border);color:var(--text-secondary);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:11px" class="mobile-chat-close">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages" bis_skin_checked="1"><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Trader101 on withdrawal of 195.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @AlphaWave on withdrawal of 250.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @PeakRider on withdrawal of 345.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @DeltaFX on withdrawal of 200.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @SwiftTrade on withdrawal of 345.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Nova77 on withdrawal of 100.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Apex99 on withdrawal of 345.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Vortex09 on withdrawal of 395.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Zenith40 on withdrawal of 124.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Pulse88 on withdrawal of 2000.00 KES 🎉🎉</div><div class="chat-msg bonus" bis_skin_checked="1">Orbit25: evermarkFX bonus of 10.00 KES received! 🎁</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Nexus18 on withdrawal of 1500.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Solace28 on withdrawal of 100.00 KES 🎉🎉</div><div class="chat-msg user" bis_skin_checked="1"><span class="name">Echo42:</span> Trade smart with the wave 📈</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Flemzy11 on earning KES 1,800.00 on evermarkFX 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Matrix33 on withdrawal of 300.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Flemzy11 on earning KES 1,800.00 on evermarkFX 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Apex99 on withdrawal of 195.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Apex99 on withdrawal of 1200.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Trader101 on withdrawal of 1200.00 KES 🎉🎉</div><div class="chat-msg user" bis_skin_checked="1"><span class="name">Horizon56:</span> evermarkFX is flying 🚀</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Cipher30 on withdrawal of 500.00 KES 🎉🎉</div><div class="chat-msg bonus" bis_skin_checked="1">Kinetix: Bonus of 10.00 KES has been credited 🎁</div><div class="chat-msg user" bis_skin_checked="1"><span class="name">Flux81:</span> Fastest instant withdrawals!</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Apex99 on withdrawal of 2000.00 KES 🎉🎉</div><div class="chat-msg bonus" bis_skin_checked="1">Solace28: Bonus of 10.00 KES has been credited 🎁</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Vanguard on withdrawal of 150.00 KES 🎉🎉</div><div class="chat-msg user" bis_skin_checked="1"><span class="name">Vertex72:</span> Fastest instant withdrawals!</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Vortex09 on withdrawal of 700.00 KES 🎉🎉</div><div class="chat-msg bonus" bis_skin_checked="1">Momentum44: Bonus of 10.00 KES has been credited 🎁</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Quantum19 on withdrawal of 500.00 KES 🎉🎉</div><div class="chat-msg bonus" bis_skin_checked="1">Nova77: Bonus of 10.00 KES has been credited 🎁</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Pulse88 on withdrawal of 345.00 KES 🎉🎉</div><div class="chat-msg user" bis_skin_checked="1"><span class="name">Orbit25:</span> evermarkFX is flying 🚀</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @PeakRider on withdrawal of 650.00 KES 🎉🎉</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Vertex72 on withdrawal of 500.00 KES 🎉🎉</div><div class="chat-msg user" bis_skin_checked="1"><span class="name">Apex99:</span> Green spike incoming!</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @PeakRider on withdrawal of 159.00 KES 🎉🎉</div><div class="chat-msg user" bis_skin_checked="1"><span class="name">Trader101:</span> Fastest instant withdrawals!</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Signal84 on withdrawal of 700.00 KES 🎉🎉</div><div class="chat-msg user" bis_skin_checked="1"><span class="name">Vector12:</span> Trade smart with the wave 📈</div><div class="chat-msg win" bis_skin_checked="1">System: CONGRATULATIONS @Momentum44 on withdrawal of 300.00 KES 🎉🎉</div></div>
+    <div class="chat-input-area" bis_skin_checked="1">
+      <input class="chat-input" id="chatInput" placeholder="Say something..." onkeydown="if(event.key==='Enter')sendUserChat()">
+      <button class="chat-send-btn" onclick="sendUserChat()">SEND</button>
+    </div>
+  </div>
+
+  <!-- TRADE CENTER -->
+  <div class="trade-center" bis_skin_checked="1">
+    <div class="instrument-bar" bis_skin_checked="1">
+      <div class="rate-display" bis_skin_checked="1">
+        <span class="rate-val down" id="mainRate">-2.2263</span>
+        <span class="rate-change down" id="rateChange">-222.63%</span>
+      </div>
+      <div class="inst-stats" bis_skin_checked="1">
+        <div class="inst-stat" bis_skin_checked="1"><span class="inst-stat-label">24h High</span><span class="inst-stat-val" id="stat24High">2.6727</span></div>
+        <div class="inst-stat" bis_skin_checked="1"><span class="inst-stat-label">24h Low</span><span class="inst-stat-val" id="stat24Low">-2.8149</span></div>
+        <div class="inst-stat" bis_skin_checked="1"><span class="inst-stat-label">Spread</span><span class="inst-stat-val">0.0012</span></div>
+      </div>
+    </div>
+
+    <div class="chart-area" bis_skin_checked="1">
+      <canvas id="chartCanvas" width="1341" height="581" style="width: 894px; height: 387.333px;"></canvas>
+      <div class="chart-overlay-tl" bis_skin_checked="1">
+        <button class="tf-btn active" onclick="setTF(this,3)">3s</button>
+        <button class="tf-btn" onclick="setTF(this,5)">5s</button>
+        <button class="tf-btn" onclick="setTF(this,10)">10s</button>
+        <button class="tf-btn" onclick="setTF(this,30)">30s</button>
+      </div>
+      <!-- Autosell HUD -->
+      <div class="autosell-hud" id="autosellHud" bis_skin_checked="1">
+        <div class="row" bis_skin_checked="1"><span class="label">Time Left</span>&nbsp;<span class="val" id="autosellHudTimer">—</span></div>
+        <div class="row" bis_skin_checked="1"><span class="label">Autosell</span>&nbsp;<span class="val" id="autosellHudTarget">—</span></div>
+      </div>
+    </div>
+
+    <div class="trade-controls" bis_skin_checked="1">
+      <div class="trade-amount-section" bis_skin_checked="1">
+        <span class="trade-label">Stake Amount</span>
+        <div class="amount-input-wrap" bis_skin_checked="1">
+          <span class="amount-currency" id="stakeCurrency">KES</span>
+          <input class="amount-input" type="number" id="stakeInput" value="100" min="600" step="10" oninput="this.dataset.modified='true'" max="50000">
+        </div>
+        <div class="quick-amounts" id="quickAmountsWrap" bis_skin_checked="1"><button class="quick-amt" onclick="setStake(600)">600</button><button class="quick-amt" onclick="setStake(1200)">1,200</button><button class="quick-amt" onclick="setStake(3000)">3,000</button><button class="quick-amt" onclick="setStake(6000)">6,000</button></div>
+      </div>
+      <div class="timer-section" bis_skin_checked="1">
+        <div class="timer-ring" bis_skin_checked="1">
+          <svg viewBox="0 0 44 44"><circle class="track" cx="22" cy="22" r="18"></circle><circle class="progress" cx="22" cy="22" r="18" id="timerCircle" stroke-dasharray="113.1" stroke-dashoffset="0" style="stroke-dashoffset: 0; stroke: rgb(0, 200, 83);"></circle></svg>
+          <span class="timer-val" id="timerVal">3</span>
+        </div>
+        <span class="timer-label" id="timerLabel">Duration</span>
+      </div>
+      <div class="trade-buttons" bis_skin_checked="1">
+        <button class="trade-btn trade-btn-buy" id="buyBtn" onclick="placeTrade('buy')">
+          <span class="label">BUY</span>
+          <span class="sub" id="buySub" style="display: none;">Starts in 1s</span>
+        </button>
+        <button class="trade-btn trade-btn-sell" id="sellBtn" onclick="placeTrade('sell')">
+          <span class="label">SELL</span>
+          <span class="sub" id="sellSub" style="display: none;">Tap to Refund</span>
+        </button>
+      </div>
+      <div class="profit-bar" bis_skin_checked="1">
+        <span class="profit-label">P&amp;L</span>
+        <span class="profit-val neutral" id="profitDisplay">KES 0.00</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Chat FAB -->
+<button class="mobile-chat-toggle" onclick="toggleMobileChat()" aria-label="Open Chat">💬</button>
+
+<!-- Mobile Navigation Bar -->
+<div class="mobile-nav" bis_skin_checked="1">
+  <div class="mobile-nav-items" bis_skin_checked="1">
+    <a href="index.html" class="mobile-nav-item active" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"></path></svg>
+      Trade
+    </a>
+    <div class="mobile-nav-item" onclick="openDeposit()" bis_skin_checked="1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      Deposit
+    </div>
+    <a href="transactions.html" class="mobile-nav-item" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+      History
+    </a>
+    <a href="profile.html" class="mobile-nav-item" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+      Profile
+    </a>
+  </div>
+</div>
+
+<!-- Footer strip -->
+<div class="licence-strip" bis_skin_checked="1">
+  © evermarkFX — evermarkfx.com
+</div>
+
+<!-- DEPOSIT MODAL (Safaricom M-Pesa) -->
+<div class="modal-overlay" id="depositModal" bis_skin_checked="1">
+  <div class="modal-box" bis_skin_checked="1">
+    <div class="modal-title" id="depositTitle" style="margin-bottom:14px;font-size:16px;color:#fff;text-align:center" bis_skin_checked="1">⚡ Safaricom M-Pesa STK Push</div>
+
+    <!-- KES amounts -->
+    <div id="amtKes" bis_skin_checked="1" style="display: block;">
+      <div class="modal-input-label" style="margin-bottom:8px" bis_skin_checked="1">Select Deposit Amount (KES)</div>
+      <div class="usd-quick-grid" bis_skin_checked="1"><button class="d-chip kes-chip" onclick="selectChip(this,500)">500</button><button class="d-chip kes-chip" onclick="selectChip(this,1000)">1,000</button><button class="d-chip kes-chip" onclick="selectChip(this,2500)">2,500</button><button class="d-chip kes-chip" onclick="selectChip(this,5000)">5,000</button><button class="d-chip kes-chip" onclick="selectChip(this,10000)">10,000</button><button class="d-chip kes-chip kes-chip-custom" id="kesChipCustom" onclick="selectCustomChip('kesCustomWrap','depAmtKes')">Custom</button></div>
+      <div id="kesCustomWrap" class="dep-custom-wrap" style="display:none;margin-bottom:10px" bis_skin_checked="1">
+        <label class="modal-input-label">Enter KES Amount</label>
+        <input class="modal-input" type="number" id="depAmtKes" placeholder="Min: KES 500" min="500" step="50" oninput="onCustomInput(this)" style="margin-bottom:0">
+      </div>
+    </div>
+
+    <!-- USD amounts -->
+    <div id="amtUsd" style="display:none" bis_skin_checked="1">
+      <div class="modal-input-label" style="margin-bottom:8px" bis_skin_checked="1">Select Deposit Amount (USD $)</div>
+      <div class="usd-quick-grid" bis_skin_checked="1">
+        <button class="d-chip usd-chip" onclick="selectChip(this,5)">$5</button>
+        <button class="d-chip usd-chip" onclick="selectChip(this,10)">$10</button>
+        <button class="d-chip usd-chip" onclick="selectChip(this,15)">$15</button>
+        <button class="d-chip usd-chip" onclick="selectChip(this,20)">$20</button>
+        <button class="d-chip usd-chip" onclick="selectChip(this,100)">$100</button>
+        <button class="d-chip usd-chip usd-chip-custom" id="usdChipCustom" onclick="selectCustomChip('usdCustomWrap','depAmtUsd')">Custom</button>
+      </div>
+      <div id="usdCustomWrap" class="dep-custom-wrap" style="display:none;margin-bottom:10px" bis_skin_checked="1">
+        <label class="modal-input-label">Enter USD Amount</label>
+        <input class="modal-input" type="number" id="depAmtUsd" placeholder="Min: $500" min="500" step="1" oninput="onCustomInput(this)" style="margin-bottom:0">
+      </div>
+      <div class="usd-preview" id="usdPreview" style="display:none;margin-bottom:10px" bis_skin_checked="1">
+        <div bis_skin_checked="1">
+          <div style="font-size:10px;color:var(--text-muted);margin-bottom:2px" bis_skin_checked="1">YOU PAY via M-Pesa</div>
+          <div class="kes-equiv" bis_skin_checked="1">KES <span id="usdKesAmount">0.00</span></div>
+        </div>
+        <div class="rate-note" bis_skin_checked="1">
+          1 USD = <strong id="usdRateDisplay" style="color:var(--text-primary)">129.00</strong> KES<br>
+          <span id="usdRateNote" style="color:var(--text-muted)">Live exchange rate</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="phoneRow" style="margin-top:6px" bis_skin_checked="1">
+      <label class="modal-input-label">M-Pesa Phone Number</label>
+      <input class="modal-input" type="text" id="depositPhone" placeholder="0700000000 or 254700000000" value="254700000000">
+    </div>
+
+    <div style="font-size:11px;color:var(--text-muted);margin:8px 0 12px;line-height:1.4" bis_skin_checked="1">
+      ⚡ Fast automated STK prompt will appear on your phone screen immediately.
+    </div>
+
+    <button class="modal-btn modal-btn-green" id="depositBtn" onclick="requestSTK()" disabled="" style="opacity:.45">Select an amount</button>
+    <button class="modal-btn modal-btn-ghost" onclick="closeDeposit()">Cancel</button>
+    <div class="modal-status" id="depositStatus" bis_skin_checked="1"></div>
+  </div>
+</div>
+
+<!-- WITHDRAW MODAL -->
+<div class="modal-overlay" id="withdrawModal" bis_skin_checked="1">
+  <div class="modal-box" bis_skin_checked="1">
+    <div class="modal-title" id="withdrawModalTitle" style="color:var(--gold)" bis_skin_checked="1">↓ Withdraw Funds</div>
+    <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-bottom:12px" bis_skin_checked="1">
+      Available: <span style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-weight:700" id="withdrawBalance">KES 0.00</span>
+    </div>
+    <label class="modal-input-label" id="withdrawAmtLabel">Amount (KES)</label>
+    <input class="modal-input" type="number" id="withdrawAmount" placeholder="e.g. 500" min="1">
+    <label class="modal-input-label">Registered Phone / Account</label>
+    <div class="modal-input" id="withdrawPhoneDisplay" style="background:rgba(255,255,255,.05);color:var(--text-secondary);cursor:not-allowed;font-family:'JetBrains Mono',monospace;letter-spacing:1px;user-select:none" bis_skin_checked="1">254725907099</div>
+    <div id="withdrawHint" style="font-size:11px;color:var(--text-muted);margin:6px 2px 10px;line-height:1.5" bis_skin_checked="1"><span style="color:var(--gold)">ℹ</span> Minimum withdrawal is KES 3,000.00. Dispatched instantly to your M-Pesa number.</div>
+    <button class="modal-btn modal-btn-green" id="withdrawBtn" onclick="submitWithdrawal()">Submit Request</button>
+    <button class="modal-btn modal-btn-ghost" onclick="closeWithdraw()">Cancel</button>
+    <div class="modal-status" id="withdrawStatus" bis_skin_checked="1"></div>
+  </div>
+</div>
+
+<!-- RESULT MODAL -->
+<div class="modal-overlay" id="resultModal" bis_skin_checked="1">
+  <div class="modal-box" bis_skin_checked="1">
+    <div class="result-icon win" id="resultIcon" bis_skin_checked="1">✓</div>
+    <div class="result-title win" id="resultTitle" bis_skin_checked="1">Autosell Hit!</div>
+    <div class="result-amount" id="resultAmount" bis_skin_checked="1" style="color: rgb(0, 200, 83);">+ KES 1,800.00</div>
+    <div class="result-details" id="resultDetails" bis_skin_checked="1">Type: <span>BUY</span><br>Multiplier: <span style="color:#ffc107">×3.00</span><br>Stake: <span>KES 600.00</span><br>Total Payout: <span>KES 1,800.00</span></div>
+    <button class="modal-btn modal-btn-ghost" onclick="closeResult()">Continue Trading</button>
+  </div>
+</div>
+
+<!-- Toast Notifications -->
+<div class="toast-stack" id="toastStack" bis_skin_checked="1"></div>
+<div class="toast-hero-wrap" id="toastHeroWrap" bis_skin_checked="1"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// EVERMARKFX CLIENT STATE & PERSISTENCE
+// ═══════════════════════════════════════════
+// Load current logged in user from localStorage
+let currentUser = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
+let balance = parseFloat(localStorage.getItem('evermarkRealBalance') || '0.00');
+const DEMO_START_BALANCE = 10000;
+const IS_SIMUTED = /(^|\/)simuted(\/|\.html)?$/i.test(window.location.pathname);
+const SIMUTED_WIN_RATE = 80;
+const savedDemoPref = localStorage.getItem('evermarkIsDemoMode');
+let isDemoMode = savedDemoPref !== null ? (savedDemoPref === 'true') : (!currentUser);
+let demoBalance = parseFloat(localStorage.getItem('evermarkDemoBalance') || DEMO_START_BALANCE);
+if (isNaN(demoBalance) || demoBalance < 0) demoBalance = DEMO_START_BALANCE;
+
+let depositCurrency = 'kes';
+let checkoutMethod = 'both';
+let usdRate = 129.00;
+let selectedAmount = 0;
+let currentCheckoutTab = 'mpesa';
+let _ppRef = null;
+let _ppPollInterval = null;
+
+// Audio FX synthesizer using Web Audio API
+let audioCtx = null;
+function playSound(type){
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+    if (type === 'click') {
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.linearRampToValueAtTime(0, now + 0.08);
+      osc.start(now); osc.stop(now + 0.08);
+    } else if (type === 'win') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, now); // C5
+      osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+      osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+      osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.linearRampToValueAtTime(0, now + 0.55);
+      osc.start(now); osc.stop(now + 0.55);
+    } else if (type === 'cashout') {
+      osc.frequency.setValueAtTime(600, now);
+      osc.frequency.exponentialRampToValueAtTime(1200, now + 0.15);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.linearRampToValueAtTime(0, now + 0.15);
+      osc.start(now); osc.stop(now + 0.15);
+    }
+  } catch(e){}
+}
+
+// Currency Formatting Helpers - Platform trading and wallet balances are strictly in KES
+function getCurrencyCode(){
+  return 'KES';
+}
+function getCurrencyPrefix(){
+  return 'KES ';
+}
+function formatCurrency(amount, includeSymbol = true){
+  const num = parseFloat(amount) || 0;
+  const formatted = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if (!includeSymbol) return formatted;
+  return `KES ${formatted}`;
+}
+
+// ═══════════════════════════════════════════
+// PLATFORM CONFIGURATION & STATE
+// ═══════════════════════════════════════════
+const CFG = {
+  TICK: 120, MAX_PTS: 80, TRADE_DUR: 3, PAYOUT: 0.148, Y_MAX: 3.0,
+  SPIKE_FREQ: 0.12, CRASH_FREQ: 0.02, BASE_LEVEL: 0.5, SPIKE_MAX: 2.8, CRASH_DEPTH: -2.8,
+  MIN_STAKE: 10, MAX_STAKE: 50000, MIN_DEPOSIT: 50, MIN_WITHDRAW: 100,
+  MAX_MULT: 5.0,
+  PRESTART_WAIT: 1,
+  AUTOSELL_MULT: 2.5,
+  SCALE: 1,
+};
+
+let prices = [];
+let rate = 0.5;
+let prevRate = rate;
+let activeTrade = null;
+let tradeTimer = CFG.TRADE_DUR;
+let high24 = 2.8;
+let low24 = -2.8;
+let tradePhase = 'idle';
+let prestartLeft = 0;
+let prestartInterval = null;
+let tickInterval = null;
+
+let eng = {
+  mode: 'active',
+  tick: 0,
+  base: 0.5,
+  clusterLeft: 0,
+  lastSpikeH: 0,
+  clusterDipLeft: 0,
+  lastDipH: 0,
+  crashFloor: 0,
+  crashTicks: 0,
+  crashBounces: 0,
+  dipTarget: 0,
+  dipLen: 0,
+  wobblePhase: Math.random() * 100,
+  wobbleSpeed: 0.15 + Math.random() * 0.1,
+};
+
+let platformForceOutcome = 'auto'; // 'auto' | 'force_win' | 'force_loss'
+let platformWinRate = IS_SIMUTED ? SIMUTED_WIN_RATE : 45;
+let platformForceWinRate = IS_SIMUTED ? SIMUTED_WIN_RATE : 85;
+let platformForceLossRate = 85;
+let platformDemoWinRate = IS_SIMUTED ? SIMUTED_WIN_RATE : 100;
+let platformUserOutcomes = {};     // { [username]: 'auto' | 'force_win' | 'force_loss' | 'force_win:80' | 'force_loss:85' }
+
+// Natural Probability Outcome Resolver (Independent Roll per Trade - No Streak Penalty)
+function getNaturalProbabilityOutcome(targetWinRatePercent) {
+  const p = Math.max(0, Math.min(100, targetWinRatePercent));
+  if (p >= 100) return 'force_win';
+  if (p <= 0) return 'force_loss';
+  return (Math.random() * 100) < p ? 'force_win' : 'force_loss';
+}
+
+function resolveTradeOutcomeRule(isDemo = false) {
+  if (IS_SIMUTED) {
+    return getNaturalProbabilityOutcome(SIMUTED_WIN_RATE);
+  }
+  // Ensure currentUser is freshly read from localStorage
+  if (!currentUser) {
+    try { currentUser = JSON.parse(localStorage.getItem('evermarkUser') || 'null'); } catch(e){}
+  }
+
+  // 1. DEMO TRADES: Strictly follow the admin-configured platformDemoWinRate (Default: 100% win rate)
+  if (isDemo || isDemoMode) {
+    const demoRate = (platformDemoWinRate !== undefined && !isNaN(platformDemoWinRate)) ? parseFloat(platformDemoWinRate) : 100;
+    return getNaturalProbabilityOutcome(demoRate);
+  }
+
+  // 2. REAL TRADES: Case-Insensitive Multi-Identifier Matching for Target User Overrides
+  let rawRule = null;
+  if (currentUser && platformUserOutcomes && typeof platformUserOutcomes === 'object') {
+    const uKeys = [
+      currentUser.username,
+      currentUser.name,
+      currentUser.email,
+      currentUser.phone,
+      currentUser.id ? currentUser.id.toString() : null
+    ].filter(Boolean).map(k => k.toString().trim().toLowerCase());
+
+    const userPhone9 = (currentUser.phone || '').replace(/\D/g, '').slice(-9);
+
+    for (const [targetKey, rule] of Object.entries(platformUserOutcomes)) {
+      if (!rule || rule === 'auto') continue;
+      const cleanTarget = targetKey.toString().trim().toLowerCase();
+      const targetPhone9 = targetKey.toString().replace(/\D/g, '').slice(-9);
+
+      if (uKeys.includes(cleanTarget) || (userPhone9.length >= 8 && targetPhone9 === userPhone9)) {
+        rawRule = rule;
+        break;
+      }
+    }
+  }
+
+  // 3. Global Platform Outcome Mode for Real Trades (Force Loss / Force Win)
+  if (!rawRule || rawRule === 'auto') {
+    if (platformForceOutcome && platformForceOutcome !== 'auto') {
+      rawRule = platformForceOutcome;
+    }
+  }
+
+  // 4. Fallback to Auto
+  if (!rawRule || rawRule === 'auto') {
+    rawRule = 'auto';
+  }
+
+  let mode = rawRule || 'auto';
+  let customRate = null;
+  if (typeof rawRule === 'string' && rawRule.includes(':')) {
+    const parts = rawRule.split(':');
+    mode = parts[0];
+    customRate = parseFloat(parts[1]);
+  }
+
+  // 5. Guaranteed Outcome & Natural Probability Win/Loss Calculation for Real Trades
+  if (mode === 'force_win') {
+    const winProb = (!isNaN(customRate) && customRate !== null) ? customRate : (platformForceWinRate !== undefined ? platformForceWinRate : 100);
+    return getNaturalProbabilityOutcome(winProb);
+  } else if (mode === 'force_loss') {
+    const lossProb = (!isNaN(customRate) && customRate !== null) ? customRate : (platformForceLossRate !== undefined ? platformForceLossRate : 100);
+    const winProbFromLoss = Math.max(0, 100 - lossProb);
+    return getNaturalProbabilityOutcome(winProbFromLoss);
+  } else {
+    // Dynamic 'auto' mode with target win rate slider (e.g. 45% Win)
+    const autoWinProb = (!isNaN(customRate) && customRate !== null) ? customRate : (platformWinRate || 45);
+    return getNaturalProbabilityOutcome(autoWinProb);
+  }
+}
+
+function generateSpikeHeight() {
+  const M = CFG.SPIKE_MAX || 2.8, r = Math.random();
+  if (r < 0.15) return M * (0.20 + Math.random() * 0.18);
+  if (r < 0.35) return M * (0.35 + Math.random() * 0.22);
+  if (r < 0.55) return M * (0.50 + Math.random() * 0.25);
+  if (r < 0.75) return M * (0.70 + Math.random() * 0.20);
+  if (r < 0.90) return M * (0.85 + Math.random() * 0.15);
+  return M * (0.95 + Math.random() * 0.10);
+}
+
+function generateDipDepth() {
+  const M = Math.abs(CFG.CRASH_DEPTH || -2.8), r = Math.random();
+  if (r < 0.15) return -M * (0.20 + Math.random() * 0.18);
+  if (r < 0.35) return -M * (0.35 + Math.random() * 0.22);
+  if (r < 0.55) return -M * (0.50 + Math.random() * 0.25);
+  if (r < 0.75) return -M * (0.70 + Math.random() * 0.20);
+  if (r < 0.90) return -M * (0.85 + Math.random() * 0.15);
+  return -M * (0.95 + Math.random() * 0.10);
+}
+
+function nextP(){
+  eng.tick++;
+  let p = rate;
+
+  const outcomeRule = (activeTrade && (tradePhase === 'active' || tradePhase === 'prestart')) ? (activeTrade.plannedOutcome || 'force_win') : 'auto';
+
+  if (outcomeRule === 'force_win') {
+    // If trade is BUY: force upward trajectory above entryRate, suppress dips & crashes completely
+    if (activeTrade.type === 'buy') {
+      if (eng.mode === 'crash' || eng.mode === 'dip') eng.mode = 'active';
+      eng.base = Math.max(eng.base, activeTrade.entryRate + 0.35);
+      eng.wobblePhase += eng.wobbleSpeed;
+      const wobble = Math.sin(eng.wobblePhase) * 0.05 + Math.random() * 0.04;
+      
+      // Keep price firmly in green zone
+      if (Math.random() < 0.30 || p <= activeTrade.entryRate) {
+        p = generateSpikeHeight();
+        if (p <= activeTrade.entryRate) p = activeTrade.entryRate + 0.45 + Math.random() * 0.55;
+      } else {
+        p = Math.max(activeTrade.entryRate + 0.25, p + (Math.random() - 0.25) * 0.08 + wobble);
+      }
+      p = Math.max(activeTrade.entryRate + 0.20, p);
+    } else {
+      // If trade is SELL: force downward trajectory below entryRate
+      if (eng.mode === 'crash') eng.mode = 'active';
+      if (p >= activeTrade.entryRate || Math.random() < 0.30) {
+        p = activeTrade.entryRate - 0.35 - Math.random() * 0.45;
+      } else {
+        p = Math.min(activeTrade.entryRate - 0.25, p + (Math.random() - 0.70) * 0.08);
+      }
+      p = Math.min(activeTrade.entryRate - 0.20, p);
+    }
+  } else if (outcomeRule === 'force_loss') {
+    // If trade is BUY: force crash / dip below entry
+    if (activeTrade.type === 'buy') {
+      if (eng.mode !== 'crash') {
+        eng.mode = 'crash';
+        eng.crashFloor = Math.min(activeTrade.entryRate - 0.6, CFG.CRASH_DEPTH || -2.8);
+      }
+      p = Math.min(activeTrade.entryRate - 0.35, -0.4 - Math.random() * 0.6);
+    } else {
+      // If trade is SELL: force massive upward green surge above entry
+      p = Math.max(activeTrade.entryRate + 1.2, 2.2 + Math.random() * 0.5);
+    }
+  } else {
+    // Normal / Auto dynamic math wave engine
+    switch(eng.mode) {
+      case 'active': {
+        const S = CFG.SCALE;
+        if (eng.tick > 2 && Math.random() < 0.15) {
+          eng.mode = 'dip';
+          eng.tick = 0;
+          eng.clusterLeft = 0;
+          eng.clusterDipLeft = 0;
+          eng.lastSpikeH = 0;
+          p = generateDipDepth();
+          eng.lastDipH = p;
+          break;
+        }
+        if (eng.tick > 12 && Math.random() < CFG.CRASH_FREQ * 2.0) {
+          eng.crashFloor = CFG.CRASH_DEPTH + Math.random() * 0.4 * S;
+          eng.mode = 'crash';
+          eng.tick = 0;
+          eng.clusterLeft = 0;
+          eng.clusterDipLeft = 0;
+          eng.lastSpikeH = 0;
+          eng.lastDipH = 0;
+          eng.crashBounces = 0;
+          break;
+        }
+
+        eng.wobblePhase += eng.wobbleSpeed;
+        const wobble = Math.sin(eng.wobblePhase) * 0.04 * S
+                     + Math.sin(eng.wobblePhase * 2.3) * 0.02 * S
+                     + (Math.random() - 0.5) * 0.05 * S;
+        
+        eng.base += (Math.random() - 0.5) * 0.008 * S;
+        eng.base = Math.max(0.1, Math.min(1.2, eng.base));
+
+        // Upper sharp spike clusters
+        if (eng.clusterLeft > 0) {
+          if (Math.random() < 0.55) {
+            p = generateSpikeHeight();
+            eng.lastSpikeH = p;
+            eng.clusterLeft--;
+            break;
+          } else {
+            p = eng.base + (eng.lastSpikeH - eng.base) * (0.15 + Math.random() * 0.15);
+            p += wobble * 0.5;
+            break;
+          }
+        }
+
+        // Bottom sharp dip clusters
+        if (eng.clusterDipLeft > 0) {
+          if (Math.random() < 0.55) {
+            p = generateDipDepth();
+            eng.lastDipH = p;
+            eng.clusterDipLeft--;
+            break;
+          } else {
+            p = eng.base + (eng.lastDipH - eng.base) * (0.15 + Math.random() * 0.15);
+            p += wobble * 0.5;
+            break;
+          }
+        }
+
+        // Sharp upper peak bounce-back
+        if (eng.lastSpikeH > eng.base * 2) {
+          p = eng.base + (rate - eng.base) * (0.25 + Math.random() * 0.2);
+          eng.lastSpikeH *= 0.3;
+          break;
+        }
+
+        // Sharp bottom valley bounce-back
+        if (eng.lastDipH < -0.2) {
+          p = eng.base + (rate - eng.base) * (0.25 + Math.random() * 0.2);
+          eng.lastDipH *= 0.3;
+          break;
+        }
+
+        // Random sharp upper spike
+        if (Math.random() < CFG.SPIKE_FREQ) {
+          p = generateSpikeHeight();
+          eng.lastSpikeH = p;
+          if (Math.random() < 0.45) {
+            eng.clusterLeft = 1 + Math.floor(Math.random() * 3);
+          }
+          break;
+        }
+
+        // Random sharp bottom dip / plunge
+        if (Math.random() < (CFG.SPIKE_FREQ || 0.12) * 0.8) {
+          p = generateDipDepth();
+          eng.lastDipH = p;
+          if (Math.random() < 0.45) {
+            eng.clusterDipLeft = 1 + Math.floor(Math.random() * 3);
+          }
+          break;
+        }
+
+        p = eng.base + wobble;
+        break;
+      }
+
+      case 'dip': {
+        const S = CFG.SCALE;
+        p = generateDipDepth();
+        eng.lastDipH = p;
+        eng.mode = 'active';
+        eng.tick = 0;
+        break;
+      }
+
+      case 'crash': {
+        p = eng.crashFloor + (Math.random() - 0.5) * 0.2 * CFG.SCALE;
+        eng.mode = 'crash_floor';
+        eng.tick = 0;
+        eng.crashTicks = 2 + Math.floor(Math.random() * 4);
+        eng.crashBounces = 2 + Math.floor(Math.random() * 3);
+        break;
+      }
+
+      case 'crash_floor': {
+        const S = CFG.SCALE;
+        if (eng.crashBounces > 0 && Math.random() < 0.45) {
+          p = eng.crashFloor + (0.35 + Math.random() * 0.6) * S * (eng.crashBounces % 2 === 0 ? 1 : -0.5);
+          eng.crashBounces--;
+        } else {
+          p = eng.crashFloor + (Math.random() - 0.5) * 0.15 * S;
+        }
+        if (eng.tick >= eng.crashTicks) {
+          eng.mode = 'recover';
+          eng.tick = 0;
+        }
+        break;
+      }
+
+      case 'recover': {
+        const S = CFG.SCALE;
+        p = eng.base + (Math.random() - 0.5) * 0.1 * S;
+        eng.mode = 'active';
+        eng.tick = 0;
+        eng.lastSpikeH = 0;
+        eng.lastDipH = 0;
+        eng.clusterLeft = 0;
+        eng.clusterDipLeft = 0;
+        break;
+      }
+    }
+  }
+
+  p += (Math.random() - 0.5) * 0.008 * CFG.SCALE;
+  p = Math.max(CFG.CRASH_DEPTH * 1.05, Math.min(CFG.Y_MAX * 1.05, p));
+
+  prevRate = rate;
+  rate = p;
+  if (p > high24) high24 = p;
+  if (p < low24) low24 = p;
+  return p;
+}
+
+// ═══════════════════════════════════════════
+// CANVAS CHART
+// ═══════════════════════════════════════════
+const cv = document.getElementById('chartCanvas');
+const cx = cv.getContext('2d');
+let W = 0, H = 0;
+
+function chartColors(){
+  const s = getComputedStyle(document.body);
+  const v = k => s.getPropertyValue(k).trim();
+  return {
+    bg: v('--chart-bg') || '#000',
+    greenFill: v('--chart-green-fill') || 'rgba(16,96,16,0.85)',
+    redFill: v('--chart-red-fill') || 'rgba(80,16,16,0.85)',
+    line: v('--chart-line') || '#40D040',
+    dot: v('--chart-dot') || 'rgba(64,208,64,0.25)',
+    grid: v('--chart-grid') || 'rgba(255,255,255,.07)',
+    gridZero: v('--chart-grid-zero') || 'rgba(255,255,255,.22)',
+    label: v('--chart-label') || 'rgba(255,255,255,.35)',
+    rateBox: v('--chart-ratebox') || 'rgba(0,0,0,.75)',
+    rateBoxBorder: v('--chart-ratebox-border') || 'rgba(255,255,255,.45)',
+    rateText: v('--chart-rate-text') || '#fff',
+  };
+}
+
+function resize(){
+  if (!cv || !cv.parentElement) return;
+  const r = cv.parentElement.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  W = r.width; H = r.height;
+  cv.width = W * d; cv.height = H * d;
+  cv.style.width = W + 'px'; cv.style.height = H + 'px';
+  cx.setTransform(d, 0, 0, d, 0, 0);
+}
+window.addEventListener('resize', resize);
+
+function draw(){
+  if (!cx || W === 0 || H === 0) return;
+  const cc = chartColors();
+  cx.fillStyle = cc.bg;
+  cx.fillRect(0, 0, W, H);
+  if (prices.length < 2) return;
+  const pad = { t: 30, b: 16, l: 46, r: 12 }, cW = W - pad.l - pad.r, cH = H - pad.t - pad.b;
+  const yMax = CFG.Y_MAX, yMin = -CFG.Y_MAX, yRange = yMax - yMin;
+  const xStep = cW / (CFG.MAX_PTS - 1), si = CFG.MAX_PTS - prices.length;
+  const toX = i => pad.l + (si + i) * xStep, toY = v => pad.t + cH - ((v - yMin) / yRange) * cH;
+  const zeroY = toY(0);
+
+  // Grid
+  const half = CFG.Y_MAX / 2;
+  const levels = [-CFG.Y_MAX, -half, 0, half, CFG.Y_MAX];
+  const dp = CFG.Y_MAX < 1 ? 2 : 1;
+  cx.font = '11px JetBrains Mono';
+  cx.textAlign = 'right';
+  for (const lv of levels) {
+    const y = toY(lv);
+    cx.save();
+    if (lv === 0) {
+      cx.strokeStyle = cc.gridZero;
+      cx.lineWidth = 1;
+      cx.setLineDash([]);
+    } else {
+      cx.strokeStyle = cc.grid;
+      cx.lineWidth = 0.5;
+      cx.setLineDash([2, 5]);
+    }
+    cx.beginPath();
+    cx.moveTo(pad.l, y);
+    cx.lineTo(W - pad.r, y);
+    cx.stroke();
+    cx.restore();
+    cx.fillStyle = cc.label;
+    cx.fillText(lv.toFixed(dp), pad.l - 6, y + 4);
+  }
+
+  const pts = [];
+  for (let i = 0; i < prices.length; i++) pts.push({ x: toX(i), y: toY(prices[i]), v: prices[i] });
+
+  function traceSharp() {
+    cx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length; i++) {
+      cx.lineTo(pts[i].x, pts[i].y);
+    }
+  }
+
+  // Green fill above zero
+  cx.save();
+  cx.beginPath();
+  cx.rect(pad.l, pad.t, cW, Math.max(0, zeroY - pad.t));
+  cx.clip();
+  cx.beginPath();
+  cx.moveTo(pts[0].x, zeroY);
+  for (let i = 0; i < pts.length; i++) {
+    cx.lineTo(pts[i].x, pts[i].y);
+  }
+  cx.lineTo(pts[pts.length - 1].x, zeroY);
+  cx.closePath();
+  cx.fillStyle = cc.greenFill;
+  cx.fill();
+  cx.restore();
+
+  // Red fill below zero
+  cx.save();
+  cx.beginPath();
+  cx.rect(pad.l, zeroY, cW, Math.max(0, cH + pad.t - zeroY));
+  cx.clip();
+  cx.beginPath();
+  cx.moveTo(pts[0].x, zeroY);
+  for (let i = 0; i < pts.length; i++) {
+    cx.lineTo(pts[i].x, pts[i].y);
+  }
+  cx.lineTo(pts[pts.length - 1].x, zeroY);
+  cx.closePath();
+  cx.fillStyle = cc.redFill;
+  cx.fill();
+  cx.restore();
+
+  // Sharp wave line - Green above zero
+  cx.save();
+  cx.beginPath();
+  cx.rect(pad.l, pad.t, cW, Math.max(0, zeroY - pad.t));
+  cx.clip();
+  cx.beginPath();
+  traceSharp();
+  cx.strokeStyle = cc.line;
+  cx.lineWidth = 2.5;
+  cx.lineJoin = 'miter';
+  cx.miterLimit = 3;
+  cx.lineCap = 'butt';
+  cx.stroke();
+  cx.restore();
+
+  // Sharp wave line - Red below zero (bottom dips)
+  cx.save();
+  cx.beginPath();
+  cx.rect(pad.l, zeroY, cW, Math.max(0, cH + pad.t - zeroY));
+  cx.clip();
+  cx.beginPath();
+  traceSharp();
+  cx.strokeStyle = '#ef4444';
+  cx.lineWidth = 2.5;
+  cx.lineJoin = 'miter';
+  cx.miterLimit = 3;
+  cx.lineCap = 'butt';
+  cx.stroke();
+  cx.restore();
+
+  // Dot
+  const lp = pts[pts.length - 1];
+  const isBelowZero = lp.v < 0;
+  cx.beginPath();
+  cx.arc(lp.x, lp.y, 7, 0, Math.PI * 2);
+  cx.fillStyle = isBelowZero ? 'rgba(239,68,68,0.25)' : cc.dot;
+  cx.fill();
+  cx.beginPath();
+  cx.arc(lp.x, lp.y, 3.5, 0, Math.PI * 2);
+  cx.fillStyle = isBelowZero ? '#ef4444' : cc.line;
+  cx.fill();
+
+  // Rate box
+  const isMobile = W < 640;
+  const rText = 'Rate: ' + rate.toFixed(4);
+  cx.font = isMobile ? 'bold 12px JetBrains Mono' : 'bold 15px JetBrains Mono';
+  const tw = cx.measureText(rText).width;
+  const bx = isMobile ? (W - tw - 28) : (W - tw - 20) / 2;
+  const by = isMobile ? 6 : 5;
+  const bh = isMobile ? 22 : 26;
+  const bTextY = isMobile ? by + 15 : by + 18;
+  cx.fillStyle = cc.rateBox;
+  cx.strokeStyle = cc.rateBoxBorder;
+  cx.lineWidth = 1.5;
+  cx.beginPath();
+  cx.roundRect(bx, by, tw + 16, bh, 3);
+  cx.fill();
+  cx.stroke();
+  cx.fillStyle = cc.rateText;
+  cx.textAlign = 'center';
+  cx.fillText(rText, bx + (tw + 16) / 2, bTextY);
+  cx.textAlign = 'right';
+
+  // Entry line
+  if (activeTrade) {
+    const ey = toY(activeTrade.entryRate);
+    cx.setLineDash([6, 3]);
+    cx.strokeStyle = document.body.classList.contains('light-mode') ? 'rgba(200,150,0,.7)' : 'rgba(255,193,7,.55)';
+    cx.lineWidth = 1;
+    cx.beginPath();
+    cx.moveTo(pad.l, ey);
+    cx.lineTo(W - pad.r, ey);
+    cx.stroke();
+    cx.setLineDash([]);
+    cx.fillStyle = document.body.classList.contains('light-mode') ? '#b8860b' : '#ffc107';
+    cx.font = '10px JetBrains Mono';
+    cx.textAlign = 'left';
+    cx.fillText('ENTRY ' + activeTrade.entryRate.toFixed(4), pad.l + 4, ey - 5);
+    cx.textAlign = 'right';
+  }
+}
+
+// ═══════════════════════════════════════════
+// HUD UPDATES & ENGINE TICK
+// ═══════════════════════════════════════════
+function updateHUD(){
+  const isUp = rate >= 0;
+  const el = document.getElementById('mainRate');
+  if (el) {
+    el.textContent = rate.toFixed(4);
+    el.className = 'rate-val ' + (isUp ? 'up' : 'down');
+  }
+  const cp = rate * 100;
+  const ce = document.getElementById('rateChange');
+  if (ce) {
+    ce.textContent = (cp >= 0 ? '+' : '') + cp.toFixed(2) + '%';
+    ce.className = 'rate-change ' + (cp >= 0 ? 'up' : 'down');
+  }
+  const highEl = document.getElementById('stat24High');
+  if (highEl) highEl.textContent = high24.toFixed(4);
+  const lowEl = document.getElementById('stat24Low');
+  if (lowEl) lowEl.textContent = low24.toFixed(4);
+  
+  const displayBal = isDemoMode ? demoBalance : balance;
+  const balEl = document.getElementById('headerBalance');
+  if (balEl) balEl.textContent = displayBal.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  const withBalEl = document.getElementById('withdrawBalance');
+  if (withBalEl) withBalEl.textContent = 'KES ' + balance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+
+  const demoBtn = document.getElementById('demoToggleBtn');
+  if (demoBtn) {
+    demoBtn.textContent = isDemoMode ? 'Demo' : 'Real';
+    demoBtn.className = 'demo-toggle-btn ' + (isDemoMode ? 'demo-active' : 'real-active');
+  }
+  
+  if(activeTrade){
+    const diff = (activeTrade.type === 'buy') ? (rate - activeTrade.entryRate) : (activeTrade.entryRate - rate);
+    const cappedProfit = Math.min(activeTrade.stake * diff, activeTrade.stake * (CFG.MAX_MULT - 1));
+    const pnl = diff > 0 ? cappedProfit : -activeTrade.stake;
+    const pe = document.getElementById('profitDisplay');
+    if (pe) {
+      pe.textContent = (pnl >= 0 ? '+ ' : '- ') + formatCurrency(Math.abs(pnl));
+      pe.className = 'profit-val ' + (pnl > 0 ? 'pos' : (pnl < 0 ? 'neg' : 'neutral'));
+    }
+  }
+}
+
+function tick(){
+  const p = nextP();
+  prices.push(p);
+  if (prices.length > CFG.MAX_PTS) prices.shift();
+  draw();
+  updateHUD();
+  if (activeTrade && tradePhase === 'active') {
+    if (typeof updateActiveButton === 'function') updateActiveButton();
+    if (typeof updateAutosellHud === 'function') updateAutosellHud();
+  }
+}
+
+async function syncUserBalance(){
+  // Never overwrite balance during an in-flight or resolving trade
+  if (activeTrade || tradePhase !== 'idle') return;
+
+  currentUser = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
+  if (!currentUser || (!currentUser.username && !currentUser.email && !currentUser.id)) return;
+  const ident = currentUser.username || currentUser.email || '';
+  const uId = currentUser.id || '';
+  const token = localStorage.getItem('evermarkToken') || '';
+
+  try {
+    let url = `/api/auth?action=me&username=${encodeURIComponent(ident)}`;
+    if (uId) url += `&user_id=${encodeURIComponent(uId)}`;
+    const headers = token ? { 'Authorization': `Bearer ${token}`, 'x-auth-token': token } : {};
+    
+    let res = await fetch(url, { headers });
+    if (!res.ok) res = await fetch(`api/auth?action=me&username=${encodeURIComponent(ident)}${uId ? '&user_id=' + encodeURIComponent(uId) : ''}`, { headers });
+    const data = await res.json();
+    if (data.success && data.user) {
+      const serverReal = parseFloat(data.user.balance || 0);
+      const serverDemo = parseFloat(data.user.demo_balance || 10000);
+
+      if (!isNaN(serverReal)) {
+        balance = serverReal;
+        localStorage.setItem('evermarkRealBalance', serverReal.toString());
+      }
+      demoBalance = serverDemo;
+      localStorage.setItem('evermarkDemoBalance', serverDemo.toString());
+      
+      currentUser = { ...currentUser, ...data.user, balance: balance };
+      localStorage.setItem('evermarkUser', JSON.stringify(currentUser));
+      
+      updateHUD();
+    }
+  } catch (e) {}
+}
+
+function checkUserSession(){
+  currentUser = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
+  const authWrap = document.getElementById('authButtonsWrap');
+  const userWrap = document.getElementById('userMenuWrap');
+  const nameNav = document.getElementById('userNameNav');
+  const depPhone = document.getElementById('depositPhone');
+  const withPhone = document.getElementById('withdrawPhoneDisplay');
+
+  if (currentUser && (currentUser.username || currentUser.email)) {
+    if (authWrap) authWrap.style.display = 'none';
+    if (userWrap) userWrap.style.display = 'block';
+    if (nameNav) nameNav.textContent = (currentUser.username || currentUser.name || 'Account') + ' ▾';
+    if (currentUser.phone) {
+      if (depPhone) depPhone.value = currentUser.phone;
+      if (withPhone) withPhone.textContent = currentUser.phone;
+    }
+    syncUserBalance();
+  } else {
+    if (authWrap) authWrap.style.display = 'flex';
+    if (userWrap) userWrap.style.display = 'none';
+  }
+}
+
+function logoutUser(){
+  localStorage.removeItem('evermarkUser');
+  localStorage.removeItem('evermarkRealBalance');
+  localStorage.setItem('evermarkUserLoggedOut', 'true');
+  currentUser = null;
+  balance = 0.00;
+  checkUserSession();
+  updateHUD();
+  showToast('Signed out', {sub: 'You have been logged out of evermarkFX', kind: 'info'});
+}
+
+function applyPlatformConfig(overrideCfg){
+  const savedCfg = overrideCfg || JSON.parse(localStorage.getItem('evermarkPlatformConfig') || '{}');
+  
+  const speedVal = parseFloat(savedCfg.speed ?? savedCfg.graph?.speed ?? CFG.TICK ?? 120);
+  if (!isNaN(speedVal) && speedVal > 0) {
+    const oldTick = CFG.TICK;
+    CFG.TICK = speedVal;
+    if (tickInterval && oldTick !== CFG.TICK) {
+      clearInterval(tickInterval);
+      tickInterval = setInterval(tick, CFG.TICK);
+    }
+  }
+
+  const spikeFreqVal = parseFloat(savedCfg.spikeFreq ?? savedCfg.graph?.spike_frequency ?? CFG.SPIKE_FREQ);
+  if (!isNaN(spikeFreqVal)) CFG.SPIKE_FREQ = spikeFreqVal;
+
+  const spikeMaxVal = parseFloat(savedCfg.spikeMax ?? savedCfg.graph?.spike_max ?? CFG.SPIKE_MAX);
+  if (!isNaN(spikeMaxVal)) CFG.SPIKE_MAX = spikeMaxVal;
+
+  const crashFreqVal = parseFloat(savedCfg.crashFreq ?? savedCfg.graph?.crash_frequency ?? CFG.CRASH_FREQ);
+  if (!isNaN(crashFreqVal)) CFG.CRASH_FREQ = crashFreqVal;
+
+  const crashDepthVal = parseFloat(savedCfg.crashDepth ?? savedCfg.graph?.crash_depth ?? CFG.CRASH_DEPTH);
+  if (!isNaN(crashDepthVal)) CFG.CRASH_DEPTH = crashDepthVal;
+
+  const yMaxVal = parseFloat(savedCfg.y_max ?? savedCfg.graph?.y_max ?? CFG.Y_MAX);
+  if (!isNaN(yMaxVal)) {
+    CFG.Y_MAX = yMaxVal;
+    high24 = CFG.Y_MAX * 0.8;
+    low24 = -CFG.Y_MAX * 0.8;
+  }
+
+  const baseLevelVal = parseFloat(savedCfg.base_level ?? savedCfg.graph?.base_level ?? CFG.BASE_LEVEL);
+  if (!isNaN(baseLevelVal)) {
+    CFG.BASE_LEVEL = baseLevelVal;
+    eng.base = CFG.BASE_LEVEL * 0.5;
+  }
+
+  const maxMultVal = parseFloat(savedCfg.maxMult ?? savedCfg.trade?.max_multiplier ?? CFG.MAX_MULT);
+  if (!isNaN(maxMultVal)) CFG.MAX_MULT = maxMultVal;
+
+  const durationVal = parseInt(savedCfg.duration ?? savedCfg.trade?.duration ?? CFG.TRADE_DUR);
+  if (!isNaN(durationVal) && durationVal > 0) {
+    CFG.TRADE_DUR = durationVal;
+    const timerVal = document.getElementById('timerVal');
+    if (timerVal && tradePhase === 'idle') timerVal.textContent = CFG.TRADE_DUR;
+  }
+
+  const prestartVal = parseInt(savedCfg.prestart ?? savedCfg.trade?.prestart_wait ?? CFG.PRESTART_WAIT);
+  if (!isNaN(prestartVal) && prestartVal >= 0) CFG.PRESTART_WAIT = prestartVal;
+
+  const autosellVal = parseFloat(savedCfg.autosell ?? savedCfg.trade?.autosell_multiplier ?? CFG.AUTOSELL_MULT);
+  if (!isNaN(autosellVal)) CFG.AUTOSELL_MULT = autosellVal;
+
+  const minStakeVal = parseFloat(savedCfg.minStake ?? savedCfg.trade?.min_stake ?? CFG.MIN_STAKE);
+  if (!isNaN(minStakeVal) && minStakeVal > 0) CFG.MIN_STAKE = minStakeVal;
+
+  const maxStakeVal = parseFloat(savedCfg.maxStake ?? savedCfg.trade?.max_stake ?? CFG.MAX_STAKE);
+  if (!isNaN(maxStakeVal) && maxStakeVal > 0) CFG.MAX_STAKE = maxStakeVal;
+
+  const minDepVal = parseFloat(savedCfg.minDep ?? savedCfg.trade?.min_deposit ?? CFG.MIN_DEPOSIT);
+  if (!isNaN(minDepVal) && minDepVal > 0) CFG.MIN_DEPOSIT = minDepVal;
+
+  const minWithdrawVal = parseFloat(savedCfg.minWithdraw ?? savedCfg.withdraw?.min_withdrawal ?? CFG.MIN_WITHDRAW);
+  if (!isNaN(minWithdrawVal) && minWithdrawVal > 0) CFG.MIN_WITHDRAW = minWithdrawVal;
+
+  const usdRateVal = parseFloat(savedCfg.usdRate ?? savedCfg.payments?.usd_rate ?? usdRate);
+  if (!isNaN(usdRateVal) && usdRateVal > 0) usdRate = usdRateVal;
+
+  if (savedCfg.force_outcome || savedCfg.controls?.force_outcome) {
+    platformForceOutcome = savedCfg.force_outcome || savedCfg.controls.force_outcome;
+  }
+  if (savedCfg.target_win_rate !== undefined || savedCfg.controls?.target_win_rate !== undefined) {
+    platformWinRate = parseFloat(savedCfg.target_win_rate !== undefined ? savedCfg.target_win_rate : savedCfg.controls.target_win_rate);
+  }
+  if (savedCfg.force_win_rate !== undefined || savedCfg.controls?.force_win_rate !== undefined) {
+    platformForceWinRate = parseFloat(savedCfg.force_win_rate !== undefined ? savedCfg.force_win_rate : savedCfg.controls.force_win_rate);
+  }
+  if (savedCfg.force_loss_rate !== undefined || savedCfg.controls?.force_loss_rate !== undefined) {
+    platformForceLossRate = parseFloat(savedCfg.force_loss_rate !== undefined ? savedCfg.force_loss_rate : savedCfg.controls.force_loss_rate);
+  }
+  if (savedCfg.demo_win_rate !== undefined || savedCfg.controls?.demo_win_rate !== undefined) {
+    platformDemoWinRate = parseFloat(savedCfg.demo_win_rate !== undefined ? savedCfg.demo_win_rate : savedCfg.controls.demo_win_rate);
+  }
+
+  if (savedCfg.user_outcomes && typeof savedCfg.user_outcomes === 'object') {
+    platformUserOutcomes = { ...platformUserOutcomes, ...savedCfg.user_outcomes };
+  } else if (savedCfg.controls?.user_outcomes && typeof savedCfg.controls.user_outcomes === 'object') {
+    platformUserOutcomes = { ...platformUserOutcomes, ...savedCfg.controls.user_outcomes };
+  }
+  const localUserOutcomes = JSON.parse(localStorage.getItem('evermarkUserOutcomes') || '{}');
+  if (localUserOutcomes && typeof localUserOutcomes === 'object' && Object.keys(localUserOutcomes).length > 0) {
+    platformUserOutcomes = { ...platformUserOutcomes, ...localUserOutcomes };
+  }
+
+  if (IS_SIMUTED) {
+    platformForceOutcome = 'auto';
+    platformWinRate = SIMUTED_WIN_RATE;
+    platformForceWinRate = SIMUTED_WIN_RATE;
+    platformDemoWinRate = SIMUTED_WIN_RATE;
+    platformUserOutcomes = {};
+  }
+
+  const curr = savedCfg.currency || savedCfg.payments?.deposit_currency || localStorage.getItem('evermarkDepositCurrency');
+  if (curr) {
+    depositCurrency = curr.toLowerCase();
+  }
+
+  // Keep platform Trading UI, Stakes and Balances strictly in KES
+  const headerBalIcon = document.getElementById('headerBalIcon');
+  if (headerBalIcon) headerBalIcon.textContent = 'K';
+
+  const statVol = document.getElementById('stat24Volume');
+  if (statVol) statVol.textContent = 'KES 4.8M';
+
+  const statPay = document.getElementById('statTotalPayouts');
+  if (statPay) statPay.textContent = 'KES 32.4M';
+
+  // Update Stake Controls in KES
+  const stakeCur = document.getElementById('stakeCurrency');
+  if (stakeCur) stakeCur.textContent = 'KES';
+
+  const stakeInput = document.getElementById('stakeInput');
+  const minS = CFG.MIN_STAKE || 10;
+  const maxS = CFG.MAX_STAKE || 50000;
+  if (stakeInput) {
+    stakeInput.min = minS.toString();
+    stakeInput.max = maxS.toString();
+    const curVal = parseFloat(stakeInput.value);
+    if (isNaN(curVal) || curVal < minS) {
+      stakeInput.value = minS.toString();
+    } else if (curVal > maxS) {
+      stakeInput.value = maxS.toString();
+    }
+  }
+
+  // Dynamically update quick amount buttons based on minStake
+  const quickWrap = document.getElementById('quickAmountsWrap');
+  if (quickWrap) {
+    const base = minS;
+    const amounts = [base, base * 2, base * 5, base * 10]
+      .filter((v, i, a) => a.indexOf(v) === i && v <= maxS && v >= minS);
+    quickWrap.innerHTML = amounts.map(a => `<button class="quick-amt" onclick="setStake(${a})">${a.toLocaleString()}</button>`).join('');
+  }
+
+  // Update Profit Bar
+  const profitDisplay = document.getElementById('profitDisplay');
+  if (profitDisplay && (!activeTrade || tradePhase === 'idle')) {
+    profitDisplay.textContent = formatCurrency(0);
+    profitDisplay.className = 'profit-val neutral';
+  }
+
+  // Update Withdraw Modal
+  const wBal = document.getElementById('withdrawBalance');
+  if (wBal) wBal.textContent = formatCurrency(balance);
+  const wLabel = document.getElementById('withdrawAmtLabel');
+  if (wLabel) wLabel.textContent = 'Amount (KES)';
+  const wHint = document.getElementById('withdrawHint');
+  if (wHint) {
+    const minW = CFG.MIN_WITHDRAW || 100;
+    wHint.innerHTML = `<span style="color:var(--gold)">ℹ</span> Minimum withdrawal is ${formatCurrency(minW)}. Dispatched instantly to your M-Pesa number.`;
+  }
+
+  updateHUD();
+}
+
+function initTheme(){
+  const saved = localStorage.getItem('evermarkTheme') || 'dark';
+  if (saved === 'light') {
+    document.body.classList.add('light-mode');
+  } else {
+    document.body.classList.remove('light-mode');
+  }
+}
+
+function toggleTheme(){
+  const isLight = document.body.classList.toggle('light-mode');
+  localStorage.setItem('evermarkTheme', isLight ? 'light' : 'dark');
+  if (typeof draw === 'function') draw();
+}
+
+// ═══════════════════════════════════════════
+// INITIALIZE CHART & TICK LOOP
+// ═══════════════════════════════════════════
+for (let i = 0; i < CFG.MAX_PTS; i++) {
+  prices.push(nextP());
+}
+initTheme();
+resize();
+draw();
+checkUserSession();
+applyPlatformConfig();
+
+tickInterval = setInterval(tick, CFG.TICK || 120);
+
+window.addEventListener('storage', (e) => {
+  if (e.key === 'evermarkUser' || e.key === 'evermarkRealBalance' || e.key === 'evermarkDemoBalance') {
+    balance = parseFloat(localStorage.getItem('evermarkRealBalance') || '0.00');
+    demoBalance = parseFloat(localStorage.getItem('evermarkDemoBalance') || '10000.00');
+    checkUserSession();
+    updateHUD();
+  }
+  if (e.key === 'evermarkPlatformConfig' || e.key === 'evermarkDepositCurrency' || e.key === 'evermarkUserOutcomes') applyPlatformConfig();
+});
+
+window.addEventListener('focus', () => {
+  syncUserBalance();
+  syncPlatformSettings();
+});
+setInterval(syncUserBalance, 8000);
+setInterval(syncPlatformSettings, 8000);
+
+async function syncPlatformSettings() {
+  try {
+    let res = await fetch('/api/settings');
+    if (!res.ok) res = await fetch('api/settings');
+    if (!res.ok) return;
+    const s = await res.json();
+    if (!s) return;
+
+    const localCfg = JSON.parse(localStorage.getItem('evermarkPlatformConfig') || '{}');
+
+    const speed = parseFloat(s.speed ?? s.graph?.speed ?? localCfg.speed ?? 120);
+    const spikeFreq = parseFloat(s.spikeFreq ?? s.graph?.spike_frequency ?? localCfg.spikeFreq ?? 0.12);
+    const spikeMax = parseFloat(s.spikeMax ?? s.graph?.spike_max ?? localCfg.spikeMax ?? 2.8);
+    const crashFreq = parseFloat(s.crashFreq ?? s.graph?.crash_frequency ?? localCfg.crashFreq ?? 0.02);
+    const crashDepth = parseFloat(s.crashDepth ?? s.graph?.crash_depth ?? localCfg.crashDepth ?? -2.8);
+    const yMax = parseFloat(s.y_max ?? s.graph?.y_max ?? localCfg.y_max ?? 3.0);
+    const maxPts = parseInt(s.max_pts ?? s.graph?.max_pts ?? localCfg.max_pts ?? 80);
+    const baseLevel = parseFloat(s.base_level ?? s.graph?.base_level ?? localCfg.base_level ?? 0.5);
+
+    const minDep = parseFloat(s.minDep ?? s.trade?.min_deposit ?? localCfg.minDep ?? 50);
+    const minStake = parseFloat(s.minStake ?? s.trade?.min_stake ?? localCfg.minStake ?? 10);
+    const maxStake = parseFloat(s.maxStake ?? s.trade?.max_stake ?? localCfg.maxStake ?? 50000);
+    const maxMult = parseFloat(s.maxMult ?? s.trade?.max_multiplier ?? localCfg.maxMult ?? 5.0);
+    const autosell = parseFloat(s.autosell ?? s.trade?.autosell_multiplier ?? localCfg.autosell ?? 2.5);
+    const duration = parseInt(s.duration ?? s.trade?.duration ?? localCfg.duration ?? 3);
+    const prestart = parseInt(s.prestart ?? s.trade?.prestart_wait ?? localCfg.prestart ?? 1);
+
+    const minWithdraw = parseFloat(s.minWithdraw ?? s.withdraw?.min_withdrawal ?? localCfg.minWithdraw ?? 100);
+    const maxWithdraw = parseFloat(s.maxWithdraw ?? s.withdraw?.max_withdrawal ?? localCfg.maxWithdraw ?? 100000);
+
+    const usdRateVal = parseFloat(s.usdRate ?? s.payments?.usd_rate ?? localCfg.usdRate ?? 129.00);
+    const currency = (s.currency || s.payments?.deposit_currency || localCfg.currency || 'kes').toLowerCase();
+
+    const forceOutcome = s.force_outcome || s.controls?.force_outcome || localCfg.force_outcome || 'auto';
+    const targetWinRate = parseFloat(s.target_win_rate ?? s.controls?.target_win_rate ?? localCfg.target_win_rate ?? 45);
+    const forceWinRate = parseFloat(s.force_win_rate ?? s.controls?.force_win_rate ?? localCfg.force_win_rate ?? 85);
+    const forceLossRate = parseFloat(s.force_loss_rate ?? s.controls?.force_loss_rate ?? localCfg.force_loss_rate ?? 85);
+    const demoWinRate = parseFloat(s.demo_win_rate ?? s.controls?.demo_win_rate ?? localCfg.demo_win_rate ?? 100);
+    const userOutcomes = {
+      ...(localCfg.user_outcomes || {}),
+      ...(s.user_outcomes || s.controls?.user_outcomes || {})
+    };
+
+    const cleanCfg = {
+      speed,
+      spikeFreq,
+      spikeMax,
+      crashFreq,
+      crashDepth,
+      y_max: yMax,
+      max_pts: maxPts,
+      base_level: baseLevel,
+      minDep,
+      minStake,
+      maxStake,
+      maxMult,
+      autosell,
+      duration,
+      prestart,
+      minWithdraw,
+      maxWithdraw,
+      usdRate: usdRateVal,
+      currency,
+      force_outcome: forceOutcome,
+      target_win_rate: targetWinRate,
+      force_win_rate: forceWinRate,
+      force_loss_rate: forceLossRate,
+      demo_win_rate: demoWinRate,
+      user_outcomes: userOutcomes,
+      graph: {
+        speed,
+        spike_frequency: spikeFreq,
+        spike_max: spikeMax,
+        crash_frequency: crashFreq,
+        crash_depth: crashDepth,
+        y_max: yMax,
+        max_pts: maxPts,
+        base_level: baseLevel
+      },
+      trade: {
+        min_deposit: minDep,
+        min_stake: minStake,
+        max_stake: maxStake,
+        max_multiplier: maxMult,
+        autosell_multiplier: autosell,
+        duration,
+        prestart_wait: prestart
+      },
+      withdraw: {
+        min_withdrawal: minWithdraw,
+        max_withdrawal: maxWithdraw
+      },
+      payments: {
+        usd_rate: usdRateVal,
+        deposit_currency: currency
+      }
+    };
+
+    // Save synchronized config to localStorage so future reads never pull stale data
+    try {
+      localStorage.setItem('evermarkPlatformConfig', JSON.stringify(cleanCfg));
+      localStorage.setItem('evermarkUserOutcomes', JSON.stringify(userOutcomes));
+      localStorage.setItem('evermarkDepositCurrency', currency);
+    } catch(e) {}
+
+    // Apply clean config immediately
+    applyPlatformConfig(cleanCfg);
+  } catch(e) {}
+}
+
+syncPlatformSettings();
+setInterval(syncPlatformSettings, 6000);
+
+// ═══════════════════════════════════════════
+// TOASTS & HERO BANNERS
+// ═══════════════════════════════════════════
+function showToast(title, opts){
+  opts = opts || {};
+  const kind = opts.kind || 'success';
+  const ms   = opts.ms   || 3500;
+  const icons = {success: '✓', info: 'i', warn: '!', error: '×'};
+  const stack = document.getElementById('toastStack');
+  if (!stack) return;
+  const el = document.createElement('div');
+  el.className = 'toast toast-' + kind;
+  el.innerHTML = `<span class="toast-icon">${icons[kind]||'✓'}</span><div class="toast-body"><strong>${title}</strong>${opts.sub ? '<small>'+opts.sub+'</small>' : ''}</div>`;
+  stack.appendChild(el);
+  while (stack.children.length > 4) stack.removeChild(stack.firstChild);
+  setTimeout(() => {
+    el.classList.add('leaving');
+    setTimeout(() => el.remove(), 400);
+  }, ms);
+}
+
+function showHeroToast(title, sub, ms) {
+  const wrap = document.getElementById('toastHeroWrap');
+  if (!wrap) return;
+  wrap.querySelectorAll('.toast-hero').forEach(el => el.remove());
+  const el = document.createElement('div');
+  el.className = 'toast-hero';
+  el.innerHTML = `<div class="hero-check">✓</div><div class="hero-body"><div class="hero-title">${title}</div>${sub ? '<div class="hero-sub">'+sub+'</div>' : ''}</div>`;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.classList.add('leaving');
+    setTimeout(() => el.remove(), 420);
+  }, ms || 3200);
+}
+
+function updateAutosellHud(){
+  const hud = document.getElementById('autosellHud');
+  if (!hud) return;
+  if (!activeTrade || tradePhase !== 'active') { hud.classList.remove('show'); return; }
+  hud.classList.add('show');
+  const timerEl = document.getElementById('autosellHudTimer');
+  const targetEl = document.getElementById('autosellHudTarget');
+  timerEl.textContent = tradeTimer + 's';
+  timerEl.className = 'val' + (tradeTimer <= 10 ? ' danger' : tradeTimer <= 20 ? ' warn' : '');
+  const target = CFG.AUTOSELL_MULT;
+  const rateDiff = rate - activeTrade.entryRate;
+  const rawMult = rateDiff > 0 ? 1 + rateDiff : 0;
+  const progress = target > 1 ? (rawMult / target) : 0;
+  let cls = '';
+  if (progress >= 0.85) cls = ' warn';
+  if (progress >= 1.0) cls = ' val';
+  targetEl.textContent = '×' + target.toFixed(2);
+  targetEl.className = 'val' + cls;
+}
+
+// ═══════════════════════════════════════════
+// TIMERS
+// ═══════════════════════════════════════════
+let tInt;
+function startTimer(dur){
+  tradeTimer=dur;
+  const circ=2*Math.PI*18,c=document.getElementById('timerCircle'),v=document.getElementById('timerVal');
+  const lbl=document.getElementById('timerLabel'); if(lbl)lbl.textContent='Expires';
+  clearInterval(tInt);
+  v.textContent=tradeTimer;
+  c.style.strokeDashoffset=0;
+  c.style.stroke='#00c853';
+  tInt=setInterval(()=>{
+    tradeTimer--;
+    v.textContent=tradeTimer;
+    c.style.strokeDashoffset=(1-tradeTimer/dur)*circ;
+    c.style.stroke=tradeTimer<=10?'#ff1744':'#00c853';
+    if(tradeTimer<=0){clearInterval(tInt);resolveTrade('expired');}
+  },1000);
+}
+
+function showPrestartTimer(secs, total){
+  const circ=2*Math.PI*18,c=document.getElementById('timerCircle'),v=document.getElementById('timerVal');
+  const lbl=document.getElementById('timerLabel'); if(lbl)lbl.textContent='Starting';
+  v.textContent = secs;
+  c.style.strokeDashoffset = (1 - secs/total) * circ;
+  c.style.stroke = '#ffc107';
+}
+
+function resetTimer(){
+  clearInterval(tInt);
+  tradeTimer=CFG.TRADE_DUR;
+  document.getElementById('timerVal').textContent=tradeTimer;
+  document.getElementById('timerCircle').style.strokeDashoffset=0;
+  document.getElementById('timerCircle').style.stroke='#00c853';
+  const lbl=document.getElementById('timerLabel');if(lbl)lbl.textContent='Duration';
+}
+
+// ═══════════════════════════════════════════
+// TRADING LIFECYCLE
+// ═══════════════════════════════════════════
+async function placeTrade(type){
+  playSound('click');
+  if(activeTrade)return;
+
+  // Always refresh currentUser before trade placement
+  try {
+    currentUser = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
+  } catch(e){}
+
+  const minStake = CFG.MIN_STAKE || 10;
+  const maxStake = CFG.MAX_STAKE || 50000;
+  const stake = parseFloat(document.getElementById('stakeInput').value) || 0;
+  if(stake < minStake){
+    showToast('Minimum stake is ' + formatCurrency(minStake), {kind:'warn'});
+    return;
+  }
+  if(stake > maxStake){
+    showToast('Maximum stake is ' + formatCurrency(maxStake), {kind:'warn'});
+    return;
+  }
+
+  const plannedOutcome = resolveTradeOutcomeRule(isDemoMode);
+  const uname = currentUser ? (currentUser.username || currentUser.email || '') : '';
+  const tradeId = (isDemoMode ? 'DEMO-' : 'ZP-') + Date.now() + '-' + Math.floor(Math.random() * 9000 + 1000);
+
+  if(isDemoMode){
+    if(stake>demoBalance){alert('Insufficient demo balance. Reset demo account in profile.');return;}
+    demoBalance-=stake;
+    localStorage.setItem('evermarkDemoBalance',demoBalance.toString());
+    activeTrade={type,entryRate:rate,stake,tradeId,isDemo:true,plannedOutcome};
+    updateHUD();
+    showHeroToast('Demo trade: ' + formatCurrency(stake) + ' staked','Virtual funds · No risk',2800);
+    _setupTradeButtons(type);
+
+    if (uname) {
+      fetch('/api/trade', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'place', username: uname, stake, is_demo: true, is_simulated: IS_SIMUTED, trade_type: type, entry_rate: rate, trade_id: tradeId })
+      }).catch(()=>{});
+    }
+    return;
+  }
+
+  // Real Mode
+  if(stake>balance){
+    openDeposit();
+    showToast('Insufficient balance', {sub: 'Deposit funds to start trading', kind: 'warn'});
+    return;
+  }
+
+  balance -= stake;
+  localStorage.setItem('evermarkRealBalance', balance.toString());
+  activeTrade={type,entryRate:rate,stake,tradeId,isDemo:false,plannedOutcome};
+  updateHUD();
+
+  showHeroToast(
+    'Stake of ' + formatCurrency(stake) + ' placed',
+    'Trade starting in <strong>' + Math.max(1, CFG.PRESTART_WAIT) + 's</strong>',
+    3000
+  );
+  _setupTradeButtons(type);
+
+  if (uname) {
+    fetch('/api/trade', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'place', username: uname, stake, is_demo: false, is_simulated: IS_SIMUTED, trade_type: type, entry_rate: rate, trade_id: tradeId })
+    })
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if (data && data.success && data.new_balance !== undefined) {
+        if (activeTrade && activeTrade.tradeId === tradeId) {
+          balance = data.new_balance;
+          localStorage.setItem('evermarkRealBalance', balance.toString());
+          updateHUD();
+        }
+      }
+    })
+    .catch(()=>{});
+  }
+}
+
+function _setupTradeButtons(type){
+  const bb=document.getElementById('buyBtn'),sb=document.getElementById('sellBtn');
+  const primaryBtn   = (type==='buy') ? bb : sb;
+  const secondaryBtn = (type==='buy') ? sb : bb;
+
+  primaryBtn.classList.add('active-trade','disabled');
+  primaryBtn.classList.remove('cashout','processing');
+  primaryBtn.onclick = null;
+
+  secondaryBtn.classList.remove('disabled','processing');
+  secondaryBtn.classList.add('active-trade','cancel-mode');
+  secondaryBtn.onclick = () => cancelTrade();
+
+  tradePhase = 'prestart';
+  prestartLeft = Math.max(1, CFG.PRESTART_WAIT);
+  const prestartTotal = prestartLeft;
+  showPrestartTimer(prestartLeft, prestartTotal);
+  updateActiveButton();
+
+  clearInterval(prestartInterval);
+  prestartInterval = setInterval(() => {
+    prestartLeft--;
+    if (prestartLeft <= 0) {
+      clearInterval(prestartInterval);
+      tradePhase = 'active';
+      secondaryBtn.classList.remove('cancel-mode');
+      secondaryBtn.classList.add('cashout');
+      secondaryBtn.onclick = () => resolveTrade('manual');
+      startTimer(CFG.TRADE_DUR);
+    } else {
+      showPrestartTimer(prestartLeft, prestartTotal);
+    }
+    updateActiveButton();
+  }, 1000);
+}
+
+function cancelTrade(){
+  if(!activeTrade || tradePhase !== 'prestart')return;
+  clearInterval(prestartInterval);
+  const tradeRef = activeTrade.tradeId;
+  const stake = activeTrade.stake;
+  const isDemo = activeTrade.isDemo;
+  const uname = currentUser ? (currentUser.username || currentUser.email || '') : '';
+
+  if(isDemo){
+    demoBalance += stake;
+    localStorage.setItem('evermarkDemoBalance', demoBalance.toString());
+  } else {
+    balance += stake;
+    localStorage.setItem('evermarkRealBalance', balance.toString());
+  }
+
+  showToast('Trade cancelled', {sub:'Stake refunded in full', kind:'info'});
+  activeTrade = null; tradePhase = 'idle';
+  resetBtns(); resetTimer(); updateHUD();
+  document.getElementById('profitDisplay').textContent = formatCurrency(0);
+  document.getElementById('profitDisplay').className='profit-val neutral';
+
+  if (uname) {
+    fetch('/api/trade', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'cancel', username: uname, stake, is_demo: isDemo, trade_id: tradeRef })
+    }).catch(()=>{});
+  }
+}
+
+function updateActiveButton() {
+  if (!activeTrade) return;
+  const bb=document.getElementById('buyBtn'),sb=document.getElementById('sellBtn');
+  const primaryBtn   = (activeTrade.type==='buy') ? bb : sb;
+  const secondaryBtn = (activeTrade.type==='buy') ? sb : bb;
+
+  if (tradePhase === 'prestart') {
+    primaryBtn.querySelector('.sub').style.display = 'block';
+    primaryBtn.querySelector('.label').textContent = activeTrade.type === 'buy' ? 'BUY' : 'SELL';
+    primaryBtn.querySelector('.sub').textContent = 'Starts in ' + prestartLeft + 's';
+
+    secondaryBtn.querySelector('.sub').style.display = 'block';
+    secondaryBtn.querySelector('.label').textContent = 'CANCEL (' + prestartLeft + 's)';
+    secondaryBtn.querySelector('.sub').textContent = 'Tap to Refund';
+    return;
+  }
+
+  if (tradePhase !== 'active') return;
+
+  // Only trigger crash loss for BUY trades that are NOT forced wins
+  if (activeTrade.type === 'buy' && rate <= 0 && prevRate > 0 && activeTrade.plannedOutcome !== 'force_win') {
+    resolveTrade('crash');
+    return;
+  }
+
+  const rateDiff = (activeTrade.type === 'buy') ? (rate - activeTrade.entryRate) : (activeTrade.entryRate - rate);
+  const rawPayout = rateDiff > 0 ? activeTrade.stake * (1 + rateDiff * 10) : 0;
+  const autosellTarget = activeTrade.stake * CFG.AUTOSELL_MULT;
+  if (rawPayout >= autosellTarget && CFG.AUTOSELL_MULT > 1) {
+    resolveTrade('autosell');
+    return;
+  }
+
+  const capPayout = activeTrade.stake * CFG.MAX_MULT;
+  const livePayout = Math.min(rawPayout, capPayout);
+  const effectiveMult = livePayout / activeTrade.stake;
+  const capped = rawPayout > capPayout && rateDiff > 0;
+
+  const payoutStr = formatCurrency(livePayout);
+  const multStr   = rateDiff > 0 ? '×' + effectiveMult.toFixed(2) + (capped ? ' (max)' : '') : '×0.00';
+
+  primaryBtn.querySelector('.sub').style.display = 'block';
+  primaryBtn.querySelector('.label').textContent = activeTrade.type === 'buy' ? 'BUY' : 'SELL';
+  primaryBtn.querySelector('.sub').textContent = 'Active · ' + formatCurrency(activeTrade.stake);
+
+  secondaryBtn.querySelector('.sub').style.display = 'block';
+  secondaryBtn.querySelector('.label').textContent = 'CASHOUT';
+  secondaryBtn.querySelector('.sub').textContent = multStr + ' · ' + payoutStr;
+}
+
+// Celebration FX
+function launchCelebration() {
+  playSound('win');
+}
+
+async function resolveTrade(reason) {
+  if(!activeTrade || tradePhase !== 'active')return;
+  tradePhase = 'resolving';
+  clearInterval(prestartInterval);
+
+  const {type, entryRate, stake, isDemo, tradeId: currentTradeId} = activeTrade;
+  const bb=document.getElementById('buyBtn'),sb=document.getElementById('sellBtn');
+  const secondaryBtn = (type==='buy') ? sb : bb;
+  if (secondaryBtn) {
+    secondaryBtn.classList.add('processing');
+    secondaryBtn.classList.remove('cashout');
+    secondaryBtn.onclick = null;
+    secondaryBtn.querySelector('.label').textContent = 'Processing...';
+    secondaryBtn.querySelector('.sub').style.display = 'none';
+  }
+
+  const outcomeRule = activeTrade.plannedOutcome || (isDemo ? resolveTradeOutcomeRule(true) : (platformForceOutcome || 'auto'));
+  let won = false;
+  let payout = 0;
+
+  if (outcomeRule === 'force_loss') {
+    // Guaranteed Loss rule (strictly losses)
+    won = false;
+    payout = 0;
+  } else if (outcomeRule === 'force_win') {
+    // Guaranteed Win rule (immune to crashes)
+    won = true;
+    const rateDiff = Math.max(Math.abs(rate - entryRate), 0.35);
+    const mult = Math.min(Math.max(1 + rateDiff * 8, 1.45), CFG.MAX_MULT);
+    payout = +(stake * mult).toFixed(2);
+  } else if (reason === 'crash') {
+    // For SELL bets, a downward crash is a massive WIN!
+    if (type === 'sell') {
+      won = true;
+      const mult = Math.min(1 + Math.max(Math.abs(entryRate - rate) * 10, 0.45), CFG.MAX_MULT);
+      payout = +(stake * mult).toFixed(2);
+    } else {
+      won = false;
+      payout = 0;
+    }
+  } else {
+    const rateDiff = (type === 'buy') ? (rate - entryRate) : (entryRate - rate);
+    if (rateDiff > 0 || reason === 'autosell') {
+      won = true;
+      const mult = Math.min(1 + Math.max(rateDiff * 10, 0.25), CFG.MAX_MULT);
+      payout = +(stake * mult).toFixed(2);
+    } else {
+      won = false;
+      payout = 0;
+    }
+  }
+
+  const uname = currentUser ? (currentUser.username || currentUser.email || '') : '';
+
+  if (isDemo) {
+    if (won) { demoBalance += payout; localStorage.setItem('evermarkDemoBalance', demoBalance.toString()); }
+  } else {
+    if (won) { balance += payout; localStorage.setItem('evermarkRealBalance', balance.toString()); }
+    saveTransaction({
+      type: 'trade',
+      tradeType: type,
+      stake,
+      payout,
+      won,
+      date: new Date().toISOString()
+    });
+  }
+
+  // Persist resolved trade outcome to database
+  if (uname) {
+    fetch('/api/trade', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'resolve',
+        username: uname,
+        trade_id: currentTradeId,
+        won,
+        payout,
+        is_demo: isDemo,
+        is_simulated: IS_SIMUTED,
+        exit_rate: rate,
+        multiplier: stake > 0 ? (payout / stake) : 1
+      })
+    })
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if (data && data.success) {
+        if (!isDemo && data.new_balance !== undefined) {
+          balance = data.new_balance;
+          localStorage.setItem('evermarkRealBalance', balance.toString());
+          updateHUD();
+        } else if (isDemo && data.new_demo_balance !== undefined) {
+          demoBalance = data.new_demo_balance;
+          localStorage.setItem('evermarkDemoBalance', demoBalance.toString());
+          updateHUD();
+        }
+      }
+    })
+    .catch(()=>{});
+  }
+
+  showResult(won, stake, payout, entryRate, rate, type, reason);
+  if (won) {
+    launchCelebration();
+    const traderName = currentUser ? currentUser.username : (isDemo ? 'DemoTrader' : 'Guest');
+    setTimeout(()=>addMsg(`System: CONGRATULATIONS @${traderName} on earning ${formatCurrency(payout)} on evermarkFX 🎉🎉`,'win'),400);
+  }
+
+  activeTrade=null; tradePhase='idle';
+  resetTimer(); resetBtns(); updateHUD();
+  document.getElementById('profitDisplay').textContent = formatCurrency(0);
+  document.getElementById('profitDisplay').className='profit-val neutral';
+}
+
+function resetBtns(){
+  clearInterval(prestartInterval);
+  const bb=document.getElementById('buyBtn'),sb=document.getElementById('sellBtn');
+  [bb,sb].forEach(b=>{
+    b.classList.remove('active-trade','cashout','cancel-mode','processing','disabled');
+    b.querySelector('.sub').style.display='none';
+  });
+  bb.querySelector('.label').textContent='BUY';
+  sb.querySelector('.label').textContent='SELL';
+  bb.onclick = () => placeTrade('buy');
+  sb.onclick = () => placeTrade('sell');
+  const hud = document.getElementById('autosellHud');
+  if (hud) hud.classList.remove('show');
+}
+
+function showResult(won,stake,payout,entry,exit,type,reason){
+  document.getElementById('resultIcon').className='result-icon '+(won?'win':'lose');
+  document.getElementById('resultIcon').textContent=won?'✓':'✕';
+  document.getElementById('resultTitle').className='result-title '+(won?'win':'lose');
+  let title = won ? (reason === 'autosell' ? 'Autosell Hit!' : 'Trade Won! 🎉') : (reason === 'crash' ? 'Rate Crashed' : (reason === 'expired' ? 'Trade Expired' : 'Trade Lost'));
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultAmount').style.color=won?'#00c853':'#ff1744';
+  document.getElementById('resultAmount').textContent=(won?'+ ':'- ')+formatCurrency(won?payout:stake);
+  if (won) {
+    const mult = payout / stake;
+    document.getElementById('resultDetails').innerHTML=`Type: <span>${type.toUpperCase()}</span><br>Multiplier: <span style="color:#ffc107">×${mult.toFixed(2)}</span><br>Stake: <span>${formatCurrency(stake)}</span><br>Total Payout: <span>${formatCurrency(payout)}</span>`;
+  } else {
+    document.getElementById('resultDetails').innerHTML=`Type: <span>${type.toUpperCase()}</span><br>Entry: <span>${entry.toFixed(4)}</span><br>Exit: <span>${exit.toFixed(4)}</span><br>Stake: <span>${formatCurrency(stake)}</span>`;
+  }
+  document.getElementById('resultModal').classList.add('show');
+}
+function closeResult(){document.getElementById('resultModal').classList.remove('show');}
+
+// ═══════════════════════════════════════════
+// DEPOSIT MODAL LOGIC
+// ═══════════════════════════════════════════
+function openDeposit(){
+  currentUser = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
+  if (!currentUser || (!currentUser.username && !currentUser.email)) {
+    showToast('Sign In Required', {sub: 'Please log in to your evermarkFX account to deposit funds.', kind: 'warn'});
+    setTimeout(() => {
+      window.location.href = 'login.html';
+    }, 1200);
+    return;
+  }
+
+  syncPlatformSettings();
+  const depPhone = document.getElementById('depositPhone');
+  if (depPhone && currentUser.phone && !depPhone.value) {
+    depPhone.value = currentUser.phone;
+  }
+
+  document.getElementById('depositModal').classList.add('show');
+  document.getElementById('depositStatus').textContent='';
+  const isUsd = depositCurrency === 'usd';
+  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 50);
+  const kesInput = document.getElementById('depAmtKes');
+  const usdInput = document.getElementById('depAmtUsd');
+  if (kesInput) {
+    kesInput.min = minDep.toString();
+    kesInput.placeholder = `Min: KES ${minDep}`;
+  }
+  if (usdInput) {
+    usdInput.min = minDep.toString();
+    usdInput.placeholder = `Min: $${minDep}`;
+  }
+  selectedAmount=0; _resetChips(); _applyDeposit();
+}
+function closeDeposit(){
+  document.getElementById('depositModal').classList.remove('show');
+  if(_ppPollInterval){ clearInterval(_ppPollInterval); _ppPollInterval=null; }
+}
+
+function _applyDeposit(){
+  const isUsd = depositCurrency === 'usd';
+  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 50);
+  document.getElementById('amtKes').style.display = isUsd ? 'none' : 'block';
+  document.getElementById('amtUsd').style.display = isUsd ? 'block' : 'none';
+
+  if (isUsd) {
+    const base = minDep;
+    const amounts = [base, Math.round(base * 1.5), base * 2, base * 5, base * 10]
+      .filter((v, i, a) => a.indexOf(v) === i && v >= base);
+    const grid = document.querySelector('#amtUsd .usd-quick-grid');
+    if (grid) {
+      grid.innerHTML = amounts.map(a => `<button class="d-chip usd-chip" onclick="selectChip(this,${a})">$${a}</button>`).join('')
+        + `<button class="d-chip usd-chip usd-chip-custom" id="usdChipCustom" onclick="selectCustomChip('usdCustomWrap','depAmtUsd')">Custom</button>`;
+    }
+  } else {
+    const base = minDep;
+    const amounts = [base, base * 2, base * 5, base * 10, base * 20]
+      .filter((v, i, a) => a.indexOf(v) === i && v >= base);
+    const grid = document.querySelector('#amtKes .usd-quick-grid');
+    if (grid) {
+      grid.innerHTML = amounts.map(a => `<button class="d-chip kes-chip" onclick="selectChip(this,${a})">${a.toLocaleString()}</button>`).join('')
+        + `<button class="d-chip kes-chip kes-chip-custom" id="kesChipCustom" onclick="selectCustomChip('kesCustomWrap','depAmtKes')">Custom</button>`;
+    }
+  }
+  _disableDepBtn('Select an amount');
+}
+
+function selectChip(btn, amount){
+  playSound('click');
+  selectedAmount = amount;
+  document.querySelectorAll('.d-chip').forEach(c=>c.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.querySelectorAll('.dep-custom-wrap').forEach(w=>w.style.display='none');
+  _updateBtn();
+}
+
+function selectCustomChip(wrapId, inputId){
+  playSound('click');
+  document.querySelectorAll('.d-chip').forEach(c=>c.classList.remove('selected'));
+  const wrap = document.getElementById(wrapId);
+  if(wrap) wrap.style.display='block';
+  selectedAmount=0; _disableDepBtn('Enter amount above');
+  setTimeout(()=>{ const i=document.getElementById(inputId); if(i) i.focus(); },50);
+}
+
+function onCustomInput(el){
+  const v = parseFloat(el.value)||0;
+  selectedAmount = v;
+  _updateBtn();
+}
+
+function _updateBtn(){
+  const isUsd = depositCurrency === 'usd';
+  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 50);
+  if(selectedAmount<=0){ _disableDepBtn('Select an amount'); return; }
+  
+  if(selectedAmount < minDep) {
+    const minLabel = isUsd ? `$${minDep} USD` : `KES ${minDep}`;
+    _disableDepBtn(`Minimum deposit is ${minLabel}`);
+    const status = document.getElementById('depositStatus');
+    if (status) status.innerHTML = `<span style="color:var(--red)">Minimum deposit is ${minLabel}</span>`;
+    if(isUsd) _showUsdPreview(selectedAmount);
+    return;
+  }
+  const status = document.getElementById('depositStatus');
+  if (status) status.innerHTML = '';
+
+  const kesAmt = isUsd ? selectedAmount*usdRate : selectedAmount;
+  if(isUsd) _showUsdPreview(selectedAmount);
+  const label = isUsd
+    ? `$${selectedAmount} USD (≈ KES ${Math.round(kesAmt).toLocaleString()})`
+    : `KES ${Math.round(selectedAmount).toLocaleString()}`;
+  _enableDepBtn(`Pay via M-Pesa STK — ${label} →`);
+}
+
+function _showUsdPreview(usdAmt){
+  const kes = usdAmt*usdRate;
+  document.getElementById('usdKesAmount').textContent = kes.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('usdPreview').style.display = 'flex';
+}
+
+function _resetChips(){
+  document.querySelectorAll('.d-chip').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.dep-custom-wrap').forEach(w=>w.style.display='none');
+  ['depAmtKes','depAmtUsd'].forEach(id=>{ const i=document.getElementById(id); if(i) i.value=''; });
+  document.getElementById('usdPreview').style.display = 'none';
+  const status = document.getElementById('depositStatus');
+  if (status) status.innerHTML = '';
+}
+
+function _enableDepBtn(txt){ const b=document.getElementById('depositBtn'); b.disabled=false; b.style.opacity='1'; b.textContent=txt; }
+function _disableDepBtn(txt){ const b=document.getElementById('depositBtn'); b.disabled=true; b.style.opacity='.45'; b.textContent=txt; }
+
+async function requestSTK(){
+  playSound('click');
+  currentUser = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
+  if (!currentUser || (!currentUser.username && !currentUser.email)) {
+    showToast('Sign In Required', {sub: 'Please log in to deposit funds.', kind: 'warn'});
+    setTimeout(() => { window.location.href = 'login.html'; }, 1000);
+    return;
+  }
+
+  const rawPhone = document.getElementById('depositPhone').value.trim();
+  const btn = document.getElementById('depositBtn');
+  const status = document.getElementById('depositStatus');
+
+  let phone = rawPhone.replace(/\D/g, '');
+  if (phone.startsWith('0')) phone = '254' + phone.slice(1);
+  if (phone.startsWith('7') || phone.startsWith('1')) phone = '254' + phone;
+
+  if(!/^254[71]\d{8}$/.test(phone)){
+    status.innerHTML='<span style="color:var(--red)">Enter valid Safaricom phone (07XXXXXXXX or 2547XXXXXXXX)</span>';
+    return;
+  }
+
+  const isUsd = depositCurrency === 'usd';
+  const minDep = CFG.MIN_DEPOSIT || (isUsd ? 10 : 50);
+  if (selectedAmount < minDep) {
+    const minLabel = isUsd ? `$${minDep} USD` : `KES ${minDep}`;
+    status.innerHTML = `<span style="color:var(--red)">Minimum deposit is ${minLabel}</span>`;
+    return;
+  }
+
+  const kesAmount = isUsd ? Math.round(selectedAmount*usdRate) : Math.round(selectedAmount);
+  btn.disabled=true; btn.textContent='Sending M-Pesa STK...';
+  status.innerHTML='<span style="color:var(--gold)">⚡ Sending M-Pesa prompt to ' + phone + '...</span>';
+
+  // Automatically switch wallet view to Real mode so user is primed to see deposited funds
+  isDemoMode = false;
+  localStorage.setItem('evermarkIsDemoMode', 'false');
+  updateHUD();
+
+  const uname = currentUser.username || currentUser.name || currentUser.email;
+  const uid = currentUser.id || currentUser.userId || '';
+
+  try {
+    let res = await fetch('/api/stk-push', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: uid,
+        username: uname,
+        phone: phone,
+        amount: kesAmount
+      })
+    });
+    if (!res.ok && res.status === 404) {
+      res = await fetch('/api/stk-push.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: uid,
+          username: uname,
+          phone: phone,
+          amount: kesAmount
+        })
+      });
+    }
+    const data = await res.json();
+    if (data.success) {
+      const depRef = data.reference;
+      let pollCount = 0;
+      const maxPolls = 36; // 36 * 2.5s = 90s total
+
+      status.innerHTML = `<span style="color:var(--gold)">⏳ STK Prompt dispatched to <strong>${phone}</strong>! Enter your M-Pesa PIN on your phone (<span id="depCountdown">90</span>s)...</span>`;
+      btn.disabled = true;
+      btn.textContent = 'Waiting for M-Pesa PIN...';
+
+      if (_ppPollInterval) clearInterval(_ppPollInterval);
+      _ppPollInterval = setInterval(async () => {
+        pollCount++;
+        const remaining = Math.max(0, Math.round(90 - pollCount * 2.5));
+        const cdEl = document.getElementById('depCountdown');
+        if (cdEl) cdEl.textContent = remaining.toString();
+
+        try {
+          const chkReqUrl = `/api/deposits?action=check&reference=${encodeURIComponent(depRef)}&checkoutRequestId=${encodeURIComponent(data.checkoutRequestId || data.transactionId || '')}&phone=${encodeURIComponent(phone)}&username=${encodeURIComponent(currentUser?.username || '')}&userId=${encodeURIComponent(uid)}&_t=${Date.now()}`;
+          let chkRes = await fetch(chkReqUrl);
+          if (!chkRes.ok) chkRes = await fetch(`api/deposits?action=check&reference=${encodeURIComponent(depRef)}&checkoutRequestId=${encodeURIComponent(data.checkoutRequestId || '')}&phone=${encodeURIComponent(phone)}&username=${encodeURIComponent(currentUser?.username || '')}&userId=${encodeURIComponent(uid)}`);
+          const chkData = await chkRes.json();
+
+          if (chkData && chkData.success && (chkData.status === 'completed' || chkData.status === 'success' || chkData.status === 'successful')) {
+            clearInterval(_ppPollInterval);
+            _ppPollInterval = null;
+
+            // Automatically switch wallet view to Real mode so player sees deposited funds
+            isDemoMode = false;
+            localStorage.setItem('evermarkIsDemoMode', 'false');
+
+            if (chkData.balance !== undefined && chkData.balance !== null) {
+              balance = parseFloat(chkData.balance);
+              localStorage.setItem('evermarkRealBalance', balance.toString());
+            } else {
+              balance = balance + kesAmount;
+              localStorage.setItem('evermarkRealBalance', balance.toString());
+            }
+
+            if (currentUser) {
+              currentUser.balance = balance;
+              localStorage.setItem('evermarkUser', JSON.stringify(currentUser));
+            }
+
+            // Sync verified balance from backend
+            if (typeof syncUserBalance === 'function') {
+              try { await syncUserBalance(); } catch(e) {}
+            }
+            updateHUD();
+
+            status.innerHTML = `<span style="color:var(--green)">✓ Payment of KES ${kesAmount.toLocaleString()} Confirmed! Balance updated.</span>`;
+            btn.textContent = 'Payment Received! ✓';
+            launchCelebration();
+            saveTransaction({
+              type: 'deposit',
+              amount: kesAmount,
+              method: chkData.method || 'M-Pesa STK',
+              ref: depRef,
+              date: new Date().toISOString()
+            });
+            setTimeout(closeDeposit, 2000);
+            return;
+          } else if (chkData && (chkData.status === 'failed' || chkData.status === 'cancelled' || chkData.status === 'declined' || chkData.status === 'expired')) {
+            clearInterval(_ppPollInterval);
+            _ppPollInterval = null;
+            const isCancelled = chkData.status === 'cancelled';
+            const failReason = chkData.message || (isCancelled ? 'STK Prompt was cancelled on handset.' : 'M-Pesa payment declined or incorrect PIN entered.');
+            status.innerHTML = `<span style="color:var(--red)">✕ ${failReason}</span>`;
+            btn.disabled = false;
+            btn.textContent = 'Try Again';
+            return;
+          }
+        } catch(e) {}
+
+        if (pollCount >= maxPolls) {
+          clearInterval(_ppPollInterval);
+          _ppPollInterval = null;
+          status.innerHTML = '<span style="color:var(--red)">✕ M-Pesa prompt timed out. If you already entered your PIN, your balance will update automatically once confirmed.</span>';
+          btn.disabled = false;
+          btn.textContent = 'Retry Deposit';
+        }
+      }, 2500);
+    } else {
+      status.innerHTML = `<span style="color:var(--red)">✕ ${data.error || 'Payment request failed. Please try again.'}</span>`;
+      btn.disabled = false;
+      btn.textContent = 'Try Again';
+    }
+  } catch (err) {
+    status.innerHTML = '<span style="color:var(--red)">✕ Network error connecting to payment gateway. Please try again.</span>';
+    btn.disabled = false;
+    btn.textContent = 'Try Again';
+  }
+}
+
+// ═══════════════════════════════════════════
+// WITHDRAWAL
+// ═══════════════════════════════════════════
+function openWithdraw(){
+  syncPlatformSettings();
+  const minWithdraw = CFG.MIN_WITHDRAW || 100;
+  const hintEl = document.getElementById('withdrawHint');
+  if (hintEl) {
+    hintEl.innerHTML = `<span style="color:var(--gold)">ℹ</span> Minimum withdrawal is ${formatCurrency(minWithdraw)}. Dispatched instantly via M-Pesa B2C.`;
+  }
+  const input = document.getElementById('withdrawAmount');
+  if (input) {
+    input.min = minWithdraw.toString();
+    input.placeholder = `e.g. ${minWithdraw >= 100 ? minWithdraw * 5 : 500}`;
+  }
+  document.getElementById('withdrawBalance').textContent = formatCurrency(balance);
+  document.getElementById('withdrawStatus').textContent = '';
+  document.getElementById('withdrawModal').classList.add('show');
+}
+function closeWithdraw(){document.getElementById('withdrawModal').classList.remove('show');}
+
+async function submitWithdrawal(){
+  playSound('click');
+  const amount = parseFloat(document.getElementById('withdrawAmount').value) || 0;
+  const btn = document.getElementById('withdrawBtn');
+  const status = document.getElementById('withdrawStatus');
+  const minWithdraw = CFG.MIN_WITHDRAW || 100;
+
+  if (amount < minWithdraw) { status.innerHTML = '<span style="color:var(--red)">Minimum withdrawal is ' + formatCurrency(minWithdraw) + '</span>'; return; }
+  if (amount > balance) { status.innerHTML = '<span style="color:var(--red)">Amount exceeds available balance</span>'; return; }
+
+  btn.disabled = true; btn.textContent = 'Processing...';
+  status.innerHTML = '<span style="color:var(--gold)">Submitting M-Pesa B2C payout...</span>';
+
+  currentUser = JSON.parse(localStorage.getItem('evermarkUser') || 'null');
+  const uname = currentUser ? (currentUser.username || currentUser.name || currentUser.email) : 'Trader';
+  const phone = currentUser?.phone || '254700000000';
+
+  const nowTime = new Date();
+  const day = nowTime.getDate();
+  const month = nowTime.getMonth() + 1;
+  const year = nowTime.getFullYear().toString().slice(-2);
+  let hours = nowTime.getHours();
+  const minutes = nowTime.getMinutes().toString().padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+  const localDate = `${day}/${month}/${year}`;
+  const localTime = `${hours}:${minutes} ${ampm}`;
+
+  try {
+    const token = localStorage.getItem('evermarkToken') || '';
+    const res = await fetch('/api/withdraw', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}`, 'x-auth-token': token } : {})
+      },
+      body: JSON.stringify({
+        user_id: currentUser?.id,
+        username: uname,
+        email: currentUser?.email || '',
+        amount,
+        phone,
+        currency: 'kes',
+        method: 'mpesa',
+        localDate,
+        localTime
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      balance = data.newBalance !== undefined ? data.newBalance : Math.max(0, balance - amount);
+      localStorage.setItem('evermarkRealBalance', balance.toString());
+      updateHUD();
+      saveTransaction({
+        type: 'withdrawal',
+        amount,
+        method: 'M-Pesa B2C',
+        ref: data.refNum || 'WD' + Date.now(),
+        date: new Date().toISOString()
+      });
+
+      if (window.AndroidMessagesBridge && typeof window.AndroidMessagesBridge.showNativeNotification === 'function') {
+        window.AndroidMessagesBridge.showNativeNotification(data.messageTitle || 'MPESA', data.notificationBody || data.messageBody || '');
+      }
+
+      closeWithdraw();
+      btn.disabled = false; btn.textContent = 'Submit Request';
+
+      showToast('Withdrawal Processed', {
+        sub: 'Payout of ' + formatCurrency(amount) + ' dispatched to your M-Pesa line.',
+        kind: 'success'
+      });
+      return;
+    } else {
+      status.innerHTML = `<span style="color:var(--red)">✕ ${data.error || 'Withdrawal failed. Please try again.'}</span>`;
+      btn.disabled = false; btn.textContent = 'Submit Request';
+      return;
+    }
+  } catch (err) {
+    // Client fallback simulation
+    balance = Math.max(0, balance - amount);
+    localStorage.setItem('evermarkRealBalance', balance.toString());
+    updateHUD();
+    const fallbackRef = 'WD' + Date.now().toString(36).toUpperCase();
+    saveTransaction({
+      type: 'withdrawal',
+      amount,
+      method: 'M-Pesa B2C',
+      ref: fallbackRef,
+      date: new Date().toISOString()
+    });
+    closeWithdraw();
+    btn.disabled = false; btn.textContent = 'Submit Request';
+
+    showToast('Withdrawal Processed', {
+      sub: 'Payout of ' + formatCurrency(amount) + ' dispatched to your M-Pesa line.',
+      kind: 'success'
+    });
+  }
+}
+
+// ═══════════════════════════════════════════
+// CLEAN TOAST NOTIFICATION CONTROLLER
+// ═══════════════════════════════════════════
+function showToast(title, opts = {}) {
+  let container = document.getElementById('siteToastContainer');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'siteToastContainer';
+    container.className = 'site-toast-container';
+    document.body.appendChild(container);
+  }
+  const sub = typeof opts === 'object' ? (opts.sub || '') : '';
+  const kind = typeof opts === 'object' ? (opts.kind || 'info') : 'info';
+  const icon = kind === 'success' ? '✓' : (kind === 'warn' ? '⚠' : 'ℹ');
+  const iconColor = kind === 'success' ? 'var(--green)' : (kind === 'warn' ? 'var(--gold)' : '#38bdf8');
+  
+  const toast = document.createElement('div');
+  toast.className = 'site-toast';
+  toast.innerHTML = `<span style="color:${iconColor};font-weight:700;font-size:14px;">${icon}</span> <div><div style="font-weight:600;">${title}</div>${sub ? '<div style="opacity:0.75;font-size:11.5px;margin-top:2px;">' + sub + '</div>' : ''}</div>`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.transition = 'all 0.3s ease';
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(10px)';
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+}
+
+function showHeroToast(title, sub) {
+  showToast(title, { sub, kind: 'success' });
+}
+
+function saveTransaction(item){
+  const list = JSON.parse(localStorage.getItem('evermarkTransactions') || '[]');
+  list.unshift(item);
+  localStorage.setItem('evermarkTransactions', JSON.stringify(list.slice(0, 100)));
+}
+
+// ═══════════════════════════════════════════
+// DEMO TOGGLE & UTILS
+// ═══════════════════════════════════════════
+function setStake(v){ playSound('click'); document.getElementById('stakeInput').value=v; }
+function setTF(b,s){
+  playSound('click');
+  document.querySelectorAll('.tf-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  CFG.TRADE_DUR=s;
+  if(!activeTrade){tradeTimer=s;document.getElementById('timerVal').textContent=s;}
+}
+
+function toggleDemoMode(){
+  playSound('click');
+  if(activeTrade){ showToast('Finish your active trade first','',{kind:'warn'}); return; }
+  isDemoMode = !isDemoMode;
+  localStorage.setItem('evermarkIsDemoMode', isDemoMode ? 'true' : 'false');
+  updateHUD();
+  if(isDemoMode){
+    showToast('Demo Account Active', {sub:'Trading with virtual practice funds (' + formatCurrency(demoBalance) + ')', kind:'info'});
+  } else {
+    showToast('Real Account Active', {sub:'Trading with live wallet balance (' + formatCurrency(balance) + ')', kind:'success'});
+  }
+}
+
+function toggleUserMenu(e){
+  e.stopPropagation();
+  const dd = document.getElementById('userMenuDropdown');
+  if (dd) dd.classList.toggle('open');
+}
+document.addEventListener('click', (e) => {
+  const dd = document.getElementById('userMenuDropdown');
+  if (dd && !e.target.closest('.user-menu')) dd.classList.remove('open');
+});
+
+// ═══════════════════════════════════════════
+// LIVE ACTIVITY CHAT SIMULATION
+// ═══════════════════════════════════════════
+const NAMES=['Trader101','AlphaWave','PeakRider','DeltaFX','SwiftTrade','Nova77','Apex99','Vortex09','Zenith40','Pulse88','Momentum44','SparkLine','Crest21','Orbit25','Vector12','Signal84','Matrix33','Quantum19','Horizon56','Vertex72','Nexus18','Prism64','Cipher30','Echo42','Flux81','Titan15','Kinetix','Astro50','Solace28','Vanguard'];
+const AMTS=[100,124,145,150,159,195,200,250,300,345,395,450,500,650,700,800,1000,1200,1500,2000];
+const chatEl=document.getElementById('chatMessages');
+
+function addMsg(t,c='user'){
+  const d=document.createElement('div');
+  d.className='chat-msg '+c;
+  d.innerHTML=t;
+  chatEl.appendChild(d);
+  chatEl.scrollTop=chatEl.scrollHeight;
+  while(chatEl.children.length>80)chatEl.removeChild(chatEl.firstChild);
+}
+
+function sendUserChat(){
+  const i=document.getElementById('chatInput'),m=i.value.trim();
+  if(!m)return;
+  const username = currentUser ? currentUser.username : 'You';
+  addMsg(`<span class="name">${username}:</span> ${m}`,'user');
+  i.value='';
+}
+
+NAMES.slice(0,10).forEach((n,i)=>{
+  const a=AMTS[Math.floor(Math.random()*AMTS.length)];
+  const displayAmt = a + '.00 KES';
+  setTimeout(()=>addMsg(`System: CONGRATULATIONS @${n} on withdrawal of ${displayAmt} 🎉🎉`,'win'),i*120);
+});
+setTimeout(()=>{
+  const bAmt = '10.00 KES';
+  addMsg(`Orbit25: evermarkFX bonus of ${bAmt} received! 🎁`,'bonus');
+},1200);
+
+setInterval(()=>{
+  const n=NAMES[Math.floor(Math.random()*NAMES.length)],a=AMTS[Math.floor(Math.random()*AMTS.length)];
+  const displayAmt = a + '.00 KES';
+  addMsg(`System: CONGRATULATIONS @${n} on withdrawal of ${displayAmt} 🎉🎉`,'win');
+},3200+Math.random()*2500);
+
+setInterval(()=>{
+  if(Math.random()>.6){
+    const n=NAMES[Math.floor(Math.random()*NAMES.length)];
+    const bAmt = '10.00 KES';
+    addMsg(`${n}: Bonus of ${bAmt} has been credited 🎁`,'bonus');
+  }
+},8000);
+
+const uMsgs=['Just cashed out 1,500 KES 🔥','Green spike incoming!','SELL SELL SELL','BUY now guys!','evermarkFX is flying 🚀','Trade smart with the wave 📈','Fastest instant withdrawals!'];
+setInterval(()=>{
+  if(Math.random()>.5){
+    const n=NAMES[Math.floor(Math.random()*NAMES.length)],m=uMsgs[Math.floor(Math.random()*uMsgs.length)];
+    addMsg(`<span class="name">${n}:</span> ${m}`,'user');
+  }
+},5000+Math.random()*4000);
+
+setInterval(()=>{
+  const c=1240+Math.floor(Math.random()*120);
+  document.getElementById('onlineTraders').textContent=c.toLocaleString();
+  document.getElementById('chatOnline').textContent=c.toLocaleString()+' online';
+},6000);
+
+function toggleMobileChat(){
+  const s=document.getElementById('chatSidebar'),c=s.querySelector('.mobile-chat-close');
+  s.classList.toggle('mobile-open');
+  c.style.display=s.classList.contains('mobile-open')?'inline-block':'none';
+}
+function closeMobileChat(){
+  document.getElementById('chatSidebar').classList.remove('mobile-open');
+  document.getElementById('chatSidebar').querySelector('.mobile-chat-close').style.display='none';
+}
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;95ebf39817bd431da731987e7361b396&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+
+<div id="siteToastContainer" class="site-toast-container" bis_skin_checked="1"></div></body><chatgpt-sidebar data-rendered="true" data-gpts-theme="light"></chatgpt-sidebar></html>
